@@ -1,0 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   safe_lst2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/15 19:07:56 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/15 19:13:42 by minseobk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lib.h"
+
+void	safe_lst_push(t_ctx *c_ref, t_lst *lst_ref, void *data)
+{
+	t_lst	*new_nod;
+
+	if (!lst_ref->prev)
+	{
+		lst_ref->next = lst_ref;
+		lst_ref->prev = lst_ref;
+	}
+	new_nod = safe_malloc(c_ref, sizeof(t_lst));
+	new_nod->data = data;
+	new_nod->next = lst_ref->prev->next;
+	new_nod->prev = lst_ref->prev;
+	lst_ref->prev->next->prev = new_nod;
+	lst_ref->prev->next = new_nod;
+}
+
+void	*safe_lst_pop_front(t_ctx *c_ref, t_lst *lst_ref)
+{
+	t_lst	*nod;
+	void	*data;
+
+	if (!lst_ref->next || lst_ref->next == lst_ref)
+		return (NULL);
+	nod = lst_ref->next;
+	data = nod->data;
+	nod->prev->next = nod->next;
+	nod->next->prev = nod->prev;
+	safe_free(c_ref, nod);
+	return (data);
+}
