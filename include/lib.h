@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 19:09:06 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 15:05:58 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include "def.h"
 
 typedef struct s_cmd		t_cmd;
-typedef struct s_env		t_env;
 typedef enum e_tokentype	t_tokentype;
 typedef struct s_token		t_token;
 typedef enum e_redirtype	t_redirtype;
@@ -36,24 +35,6 @@ void		cmd_drop(t_ctx *c_ref, t_cmd *cmd_ref);
 void		cmdlst_clear(t_ctx *c_ref, t_lst *cmdlst_ref);
 
 /* ---------------------------------- */
-/* env                                */
-/* ---------------------------------- */
-
-struct s_env
-{
-	char	*key;
-	char	*val;
-};
-
-t_env		*env_new(t_ctx *c_ref, const char *s);
-void		env_drop(t_ctx *c_ref, t_env *env_ref);
-void		envlst_init(t_ctx *c_ref, t_lst *envlst_ref, char **envp);
-void		envlst_clear(t_ctx *c_ref, t_lst *envlst_ref);
-char		*getenv(t_ctx *c_ref, const char *key);
-void		expand(t_ctx *c_ref, char **s);
-
-
-/* ---------------------------------- */
 /* log                                */
 /* ---------------------------------- */
 
@@ -68,15 +49,6 @@ void		log_cmd(const t_cmd *cmd_ref, size_t indent);
 void		log_env(const t_env *env_ref, size_t depth);
 void		log_token(const t_token *tok_ref, size_t depth);
 void		log_redir(const t_redir *red_ref, size_t depth);
-
-/* log_err.c */
-void		log_err(t_error err, const char *s);
-
-/* ---------------------------------- */
-/* panic                              */
-/* ---------------------------------- */
-
-void		panic(t_ctx *c_ref, t_error err, const char *s);
 
 /* ---------------------------------- */
 /* redir                              */
@@ -103,37 +75,7 @@ struct s_redir
 
 t_redir		*redir_new(t_ctx *c_ref, t_redirtype type, const char *fname);
 void		redir_drop(t_ctx *c_ref, t_redir *red_ref);
-
-/* ---------------------------------- */
-/* safe                               */
-/* ---------------------------------- */
-
-/* safe.c */
-void		*safe_malloc(t_ctx *c_ref, size_t size);
-void		safe_free(t_ctx *c_ref, void *p);
-
-/* safe_lst.c */
-void		safe_lst_clear(t_ctx *c_ref, t_lst *lst_ref);
-void		safe_lst_clear_with(t_ctx *c_ref, t_lst *lst_ref,
-				void (*safe_drop)(t_ctx *, void *));
-void		safe_lst_remove(t_ctx *c_ref, t_lst *nod_ref);
-void		safe_lst_remove_with(t_ctx *c_ref,
-				t_lst *nod_ref, void (*safe_drop)(t_ctx *, void *));
-
-/* safe_lst2.c */
-void		safe_lst_push(t_ctx *c_ref, t_lst *lst_ref, void *data);
-void		*safe_lst_pop_front(t_ctx *c_ref, t_lst *lst_ref);
-
-/* safe_vec.c */
-void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);
-int			safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c);
-int			safe_vec_push_n(t_ctx *c_ref,
-				t_vec *vec_ref, const char *buf, size_t n);
-char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
-
-/* safe_str.c */
-char		*safe_strdup(t_ctx *c_ref, const char *s);
-char		*safe_strndup(t_ctx *c_ref, const char *s, size_t n);
+void		redlst_clear(t_ctx *c_ref, t_lst *redlst_ref);
 
 /* ---------------------------------- */
 /* token                              */

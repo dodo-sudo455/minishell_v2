@@ -5,38 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/08 17:07:33 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/12 20:00:09 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 14:27:32 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 15:09:12 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "main.h"
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_ctx	c;
-	t_lst	toklst;
+	t_ctx	ctx;
 	char	*input;
 
-	if (argc < 2)
-		return (0);
-	input = tlib_join_args(argc, argv);
-	if (ctx_init(&c, envp) != ERROR_OK)
-	{
-		free(input);
-		return (1);
-	}
-	toklst = ft_lst_make();
-	if (parse_tokenize(&c, input, &toklst) == ERROR_OK)
-	{
-		if (parse_expand(&c, &toklst) == ERROR_OK)
-		{
-			if (parse_quote(&c, &toklst) == ERROR_OK)
-				toklst_log(&toklst, 0);
-		}
-	}
-	free(input);
-	toklst_clear(&toklst);
-	ctx_drop(&c);
+	(void)argc;
+	(void)argv;
+	ctx_init(&ctx, envp);
+	input = prompt(&ctx);
+	printf("your input is: %s\n", input);
+	ctx_clear(&ctx);
 	return (0);
 }

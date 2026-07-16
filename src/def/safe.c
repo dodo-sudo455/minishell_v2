@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_stdlib.c                                      :+:      :+:    :+:   */
+/*   safe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 18:41:03 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 18:49:17 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:59:04 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib.h"
+#include "def.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	*safe_malloc(t_ctx *c_ref, size_t size)
 {
@@ -39,4 +41,17 @@ void	safe_free(t_ctx *c_ref, void *p)
 		}
 		nod_ref = nod_ref->next;
 	}
+}
+
+char	*safe_readline(t_ctx *c_ref, const char *prompt)
+{
+	char	*input;
+
+	input = readline(prompt);
+	if (input && ft_lst_push(&c_ref->memlst, input) != 0)
+	{
+		free(input);
+		panic(c_ref, ERROR_INTERNAL, NULL);
+	}
+	return (input);
 }

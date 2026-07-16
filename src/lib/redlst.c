@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log_err.c                                          :+:      :+:    :+:   */
+/*   redlst.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 18:22:25 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 18:22:38 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 15:05:28 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 15:07:33 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void	log_err(t_error err, const char *s)
+static void	_redir_drop(t_ctx *c_ref, void *red_ref)
 {
-	(void)err;
-	(void)s;
+	redir_drop(c_ref, (t_redir *)red_ref);
+}
+
+void	redlst_clear(t_ctx *c_ref, t_lst *redlst_ref)
+{
+	safe_lst_clear_with(c_ref, redlst_ref, _redir_drop);
 }

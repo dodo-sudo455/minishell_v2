@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   safe_sig.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 16:10:50 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/06 16:14:39 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 12:18:29 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 14:58:59 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "def.h"
+#include <signal.h>
 
-int	main(int argc, char **argv, char **envp)
+void	safe_sigemptyset(t_ctx *c_ref, sigset_t *set)
 {
-	t_ctx	ctx;
+	if (sigemptyset(set) < 0)
+		panic(c_ref, ERROR_INTERNAL, "sigemptyset failed");
+}
 
-	(void)argc;
-	(void)argv;
-	ctx_make();
-	if (ctx_init(&ctx, envp) != ERROR_OK)
-	{
-		printf("ctx_init error\n");
-		return (1);
-	}
-	envlst_log(&ctx.envlst, 0);
-	ctx_drop(&ctx);
-	return (0);
+void	safe_sigaction(t_ctx *c_ref, int signum,
+				const struct sigaction *act, struct sigaction *oldact)
+{
+	if (sigaction(signum, act, oldact) < 0)
+		panic(c_ref, ERROR_INTERNAL, "sigaction failed");
 }

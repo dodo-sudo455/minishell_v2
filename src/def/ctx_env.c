@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_util.c                                         :+:      :+:    :+:   */
+/*   ctx_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:37:55 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 17:50:56 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:58:33 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib.h"
+#include "def.h"
 
-char	*getenv(t_ctx *c_ref, const char *key)
+char	*ctx_getenv(t_ctx *c_ref, const char *key)
 {
 	t_lst	*nod_ref;
 	t_env	*env_ref;
@@ -28,7 +28,7 @@ char	*getenv(t_ctx *c_ref, const char *key)
 	return (safe_strdup(c_ref, ""));
 }
 
-void	expand(t_ctx *c_ref, char **s)
+void	ctx_expand(t_ctx *c_ref, char **s)
 {
 	t_vec	vec;
 	size_t	i;

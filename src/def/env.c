@@ -6,11 +6,11 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:23:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 17:37:22 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:58:38 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib.h"
+#include "def.h"
 
 t_env	*env_new(t_ctx *c_ref, const char *s)
 {
@@ -63,5 +63,5 @@ static void	_safe_drop_env(t_ctx *c_ref, void *data)
 
 void	envlst_clear(t_ctx *c_ref, t_lst *envlst_ref)
 {
-	safe_lst_clear_with(envlst_ref, _safe_drop_env);
+	safe_lst_clear_with(c_ref, envlst_ref, _safe_drop_env);
 }

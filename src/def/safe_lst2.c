@@ -6,11 +6,11 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:07:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 19:13:42 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:58:57 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib.h"
+#include "def.h"
 
 void	safe_lst_push(t_ctx *c_ref, t_lst *lst_ref, void *data)
 {

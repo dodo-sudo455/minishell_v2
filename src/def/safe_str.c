@@ -6,11 +6,11 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 19:13:42 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:59:00 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib.h"
+#include "def.h"
 
 char	*safe_strdup(t_ctx *c_ref, const char *s)
 {

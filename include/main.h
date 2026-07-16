@@ -6,11 +6,12 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:59:25 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 19:32:49 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 14:30:48 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
+# include "shell.h"
 
 #endif // MAIN_H
