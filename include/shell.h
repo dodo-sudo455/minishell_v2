@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 19:30:31 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char		*prompt(t_ctx *c_ref);
 /* parse                              */
 /* ---------------------------------- */
 
-t_lst		parse(t_ctx *c_ref, const char *input);
+bool		parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
 bool		parse_is_quote_ok(const char *input);
-t_lst		parse_tokenize(t_ctx *c_ref, const char *input);
+void		parse_tokenize(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
 // expand token only with WORD
 void		parse_expand(t_ctx *c_ref, t_lst *toklst_ref);
 // 1. check quote syntax, 2. remove quote

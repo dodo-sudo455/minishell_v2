@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctx.c                                              :+:      :+:    :+:   */
+/*   ctx_doc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 16:32:14 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 16:33:51 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 16:58:02 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
 
-t_ctx	ctx_make(void)
+void	ctx_doclst_push(t_ctx *c_ref, const char *fname)
 {
-	t_ctx	c;
-
-	ft_memset(&c, 0, sizeof(t_ctx));
-	return (c);
+	safe_lst_push(c_ref, &c_ref->doclst, safe_strdup(c_ref, fname));
 }
 
-void	ctx_init(t_ctx *c_ref, char **envp)
+void	ctx_doclst_clear(t_ctx *c_ref)
 {
-	*c_ref = ctx_make();
-	envlst_init(c_ref, &c_ref->envlst, envp);
-}
+	t_lst	*nod_ref;
 
-void	ctx_clear(t_ctx *c_ref)
-{
-	envlst_clear(c_ref, &c_ref->envlst);
-	ctx_session_clear(c_ref);
-}
-
-void	ctx_session_clear(t_ctx *c_ref)
-{
-	gc_clear(&c_ref->gc);
-	ctx_doclst_clear(c_ref);
+	nod_ref = c_ref->doclst.next;
+	while (nod_ref != c_ref->doclst.next)
+	{
+		unlink(nod_ref->data);
+		nod_ref = nod_ref->next;
+	}
+	safe_lst_clear(c_ref, &c_ref->doclst);
 }

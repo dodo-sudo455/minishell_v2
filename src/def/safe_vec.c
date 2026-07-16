@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 14:59:02 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:39:29 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref)
 	*vec_ref = ft_vec_make(0);
 }
 
-int	safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c)
+void	safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c)
 {
 	char	*tmp;
 
@@ -37,28 +37,23 @@ int	safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c)
 	}
 	vec_ref->arr[vec_ref->len] = c;
 	vec_ref->len += 1;
-	return (0);
 }
 
-int	safe_vec_push_n(t_ctx *c_ref, t_vec *vec_ref, const char *buf, size_t n)
+void	safe_vec_push_n(t_ctx *c_ref, t_vec *vec_ref, const char *buf, size_t n)
 {
 	while (n > 0)
 	{
-		if (safe_vec_push(c_ref, vec_ref, *buf))
-			return (1);
+		safe_vec_push(c_ref, vec_ref, *buf);
 		buf += 1;
 		n -= 1;
 	}
-	return (0);
 }
 
 char	*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref)
 {
-	char	*str;
+	char	*s;
 
-	if (safe_vec_push(c_ref, vec_ref, '\0'))
-		return (NULL);
-	str = vec_ref->arr;
-	*vec_ref = ft_vec_make(0);
-	return (str);
+	s = safe_malloc(c_ref, sizeof(char) * (vec_ref->len + 1));
+	ft_strlcpy(s, vec_ref->arr, vec_ref->len + 1);
+	return (s);
 }

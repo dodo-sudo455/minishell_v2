@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctx.c                                              :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 16:32:14 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 15:16:30 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "def.h"
+#include "shell.h"
 
-t_ctx	ctx_make(void)
+bool	parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref)
 {
-	t_ctx	c;
-
-	ft_memset(&c, 0, sizeof(t_ctx));
-	return (c);
-}
-
-void	ctx_init(t_ctx *c_ref, char **envp)
-{
-	*c_ref = ctx_make();
-	envlst_init(c_ref, &c_ref->envlst, envp);
-}
-
-void	ctx_clear(t_ctx *c_ref)
-{
-	envlst_clear(c_ref, &c_ref->envlst);
-	ctx_session_clear(c_ref);
-}
-
-void	ctx_session_clear(t_ctx *c_ref)
-{
-	gc_clear(&c_ref->gc);
-	ctx_doclst_clear(c_ref);
+	if (!parse_is_quote_ok(input))
+		return (false);
+	parse_tokenize(c_ref, input, toklst_ref);
+	parse_expand(c_ref, toklst_ref);
+	parse_quote(c_ref, toklst_ref);
+	return (true);
 }

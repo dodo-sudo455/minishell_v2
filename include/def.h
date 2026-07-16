@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 14:59:51 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 17:31:36 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef struct s_ctx		t_ctx;
 typedef struct s_env		t_env;
 typedef enum e_error		t_error;
+typedef t_lst				t_gc;
 
 /* ---------------------------------- */
 /* ctx                                */
@@ -30,27 +31,29 @@ typedef enum e_error		t_error;
  *		 This struct holds reused data including session data
  *		and maintains address list for implementing garbage
  *		collector.
- *		 The garbage collector is implemented in `memlst`, which
- *		is a list of dynamically 
- *		 B/c the garbage collector itself is a list, `memlst`
- *		uses raw api from `libft.h`.  Other lists will use
- *		safe functions in `lib.h`.
  *
  *	TODO
  *		- handle heredoc list
  */
 struct s_ctx
 {
+	t_gc		gc;
 	char		**envp;
 	t_lst		envlst;
-
-	t_lst		memlst;
+	t_lst		doclst;
 };
 
+/* ctx.c */
 t_ctx		ctx_make(void);
 void		ctx_init(t_ctx *c_ref, char **envp);
 void		ctx_clear(t_ctx *c_ref);
 void		ctx_session_clear(t_ctx *c_ref);
+
+/* ctx_doc.c */
+void		ctx_doclst_push(t_ctx *c_ref, const char *fname);
+void		ctx_doclst_clear(t_ctx *c_ref);
+
+/* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);
 void		ctx_expand(t_ctx *c_ref, char **s);
 
@@ -80,6 +83,16 @@ enum e_error
 	ERROR_DEBUG,
 	ERROR_SYN,
 };
+
+/* ---------------------------------- */
+/* gc                                 */
+/* ---------------------------------- */
+
+t_gc		gc_make(void);
+int			gc_push(t_gc *gc_ref, void *p);
+void		*gc_malloc(t_gc *gc_ref, size_t size);
+void		gc_free(t_gc *gc_ref, void *p);
+void		gc_clear(t_gc *gc_ref);
 
 /* ---------------------------------- */
 /* panic                              */
@@ -119,8 +132,8 @@ char		*safe_strndup(t_ctx *c_ref, const char *s, size_t n);
 
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);
-int			safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c);
-int			safe_vec_push_n(t_ctx *c_ref,
+void		safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c);
+void		safe_vec_push_n(t_ctx *c_ref,
 				t_vec *vec_ref, const char *buf, size_t n);
 char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
 

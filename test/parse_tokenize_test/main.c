@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctx.c                                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 16:32:14 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/06 15:35:24 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "def.h"
+#include "test.h"
 
-t_ctx	ctx_make(void)
+int	main(int argc, char **argv)
 {
 	t_ctx	c;
+	t_lst	toklst;
+	char	*input;
 
-	ft_memset(&c, 0, sizeof(t_ctx));
-	return (c);
-}
-
-void	ctx_init(t_ctx *c_ref, char **envp)
-{
-	*c_ref = ctx_make();
-	envlst_init(c_ref, &c_ref->envlst, envp);
-}
-
-void	ctx_clear(t_ctx *c_ref)
-{
-	envlst_clear(c_ref, &c_ref->envlst);
-	ctx_session_clear(c_ref);
-}
-
-void	ctx_session_clear(t_ctx *c_ref)
-{
-	gc_clear(&c_ref->gc);
-	ctx_doclst_clear(c_ref);
+	if (argc < 2)
+		return (0);
+	input = tlib_join_args(argc, argv);
+	c = ctx_make();
+	toklst = ft_lst_make();
+	parse_tokenize(&c, input, &toklst);
+	log_lst_with(&toklst, (void (*)(void *, size_t))log_token, 0, true);
+	printf("\n");
+	free(input);
+	toklst_clear(&c, &toklst);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:07:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 14:58:57 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	safe_lst_push(t_ctx *c_ref, t_lst *lst_ref, void *data)
 	}
 	new_nod = safe_malloc(c_ref, sizeof(t_lst));
 	new_nod->data = data;
-	new_nod->next = lst_ref->prev->next;
+	new_nod->next = lst_ref;
 	new_nod->prev = lst_ref->prev;
-	lst_ref->prev->next->prev = new_nod;
 	lst_ref->prev->next = new_nod;
+	lst_ref->prev = new_nod;
 }
 
 void	*safe_lst_pop_front(t_ctx *c_ref, t_lst *lst_ref)

@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctx.c                                              :+:      :+:    :+:   */
+/*   parse_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 16:32:14 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/16 17:10:02 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/16 18:39:29 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "def.h"
+#include "shell.h"
 
-t_ctx	ctx_make(void)
+void	parse_expand(t_ctx *c_ref, t_lst *toklst_ref)
 {
-	t_ctx	c;
+	t_lst	*nod_ref;
+	t_token	*tok_ref;
 
-	ft_memset(&c, 0, sizeof(t_ctx));
-	return (c);
-}
-
-void	ctx_init(t_ctx *c_ref, char **envp)
-{
-	*c_ref = ctx_make();
-	envlst_init(c_ref, &c_ref->envlst, envp);
-}
-
-void	ctx_clear(t_ctx *c_ref)
-{
-	envlst_clear(c_ref, &c_ref->envlst);
-	ctx_session_clear(c_ref);
-}
-
-void	ctx_session_clear(t_ctx *c_ref)
-{
-	gc_clear(&c_ref->gc);
-	ctx_doclst_clear(c_ref);
+	nod_ref = toklst_ref->next;
+	while (nod_ref != toklst_ref)
+	{
+		tok_ref = (t_token *)nod_ref->data;
+		if (token_is_word(tok_ref))
+			ctx_expand(c_ref, &tok_ref->s);
+		nod_ref = nod_ref->next;
+	}
 }
