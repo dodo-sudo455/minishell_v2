@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:23:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 14:58:38 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/16 15:13:54 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ t_env	*env_new(t_ctx *c_ref, const char *s)
 	pos = ft_strchr(s, '=');
 	if (pos)
 	{
-		env_ref->key = safe_strndup(NULL, s, pos - s);
-		env_ref->val = safe_strdup(NULL, pos + 1);
+		env_ref->key = safe_strndup(c_ref, s, pos - s);
+		env_ref->val = safe_strdup(c_ref, pos + 1);
 	}
 	else
 	{
-		env_ref->key = safe_strdup(NULL, s);
+		env_ref->key = safe_strdup(c_ref, s);
 		env_ref->val = NULL;
 	}
 	return (env_ref);
