@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:11:39 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:40:01 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@
 # include "lib.h"
 
 typedef struct s_session	t_session;
-typedef enum e_error		t_error;
-
-/* ---------------------------------- */
-/* error                              */
-/* ---------------------------------- */
-
-enum e_error
-{
-	ERROR_OK,
-	ERROR_QUOTE,
-	ERROR_SYN,
-};
-
-t_error		geterr(const t_session *s_ref);
-t_error		seterr(t_ctx *c_ref, t_session *s_ref,
-				t_error err, const char *errparam);
 
 /* ---------------------------------- */
 /* session                            */
@@ -39,8 +23,6 @@ t_error		seterr(t_ctx *c_ref, t_session *s_ref,
 
 struct s_session
 {
-	t_error	err;
-	char	*errparam;
 	char	*input;
 	t_lst	toklst;
 	t_lst	cmdlst;

@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:13:24 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:54:53 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,36 @@
 
 typedef struct s_ctx		t_ctx;
 typedef struct s_env		t_env;
+typedef enum e_error		t_error;
 typedef enum e_fatal		t_fatal;
 typedef t_lst				t_gc;
+
+/* ---------------------------------- */
+/* error                              */
+/* ---------------------------------- */
+
+enum e_error
+{
+	ERROR_OK,
+	ERROR_QUOTE,
+	ERROR_SYN,
+};
+
+t_error		geterr(const t_ctx *c_ref);
+t_error		seterr(t_ctx *c_ref, t_error err, const char *errparam);
+void		logerr(t_ctx *c_ref);
+
+/* ---------------------------------- */
+/* fatal                              */
+/* ---------------------------------- */
+
+enum e_fatal
+{
+	FATAL_OK,
+	FATAL_INTERNAL,
+	FATAL_DEBUG,
+	FATAL_EXIT,
+};
 
 /* ---------------------------------- */
 /* ctx                                */
@@ -40,12 +68,15 @@ struct s_ctx
 	t_gc		gc;
 	char		**envp;
 	t_lst		envlst;
+	t_error		err;
+	char		*errparam;
 };
 
 /* ctx.c */
 t_ctx		ctx_make(void);
 void		ctx_init(t_ctx *c_ref, char **envp);
 void		ctx_clear(t_ctx *c_ref);
+void		ctx_clear_err(t_ctx *c_ref);
 
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);
@@ -65,18 +96,6 @@ t_env		*env_new(t_ctx *c_ref, const char *s);
 void		env_drop(t_ctx *c_ref, t_env *env_ref);
 void		envlst_init(t_ctx *c_ref, t_lst *envlst_ref, char **envp);
 void		envlst_clear(t_ctx *c_ref, t_lst *envlst_ref);
-
-/* ---------------------------------- */
-/* fatal                              */
-/* ---------------------------------- */
-
-enum e_fatal
-{
-	FATAL_OK,
-	FATAL_INTERNAL,
-	FATAL_DEBUG,
-	FATAL_EXIT,
-};
 
 /* ---------------------------------- */
 /* gc                                 */
