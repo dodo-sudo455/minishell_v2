@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:10:48 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 17:54:29 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ void		log_lst_with(const t_lst *lst_ref,
 				void (*log_data)(void *, size_t), size_t depth, bool ln);
 
 /* log2.c */
-void		log_cmd(const t_cmd *cmd_ref, size_t indent);
 void		log_env(const t_env *env_ref, size_t depth);
 void		log_token(const t_token *tok_ref, size_t depth);
 void		log_redir(const t_redir *red_ref, size_t depth);
+
+/* log3.c */
+void		log_cmd(const t_cmd *cmd_ref, size_t indent);
 
 /* ---------------------------------- */
 /* redir                              */
@@ -114,6 +116,7 @@ t_redirtype	token_to_redirtype(const t_token *t);
 bool		token_is_redir(const t_token *tok_ref);
 bool		token_is_meta(const t_token *tok_ref);
 bool		token_is_word(const t_token *tok_ref);
+bool		token_is_pipe(const t_token *tok_ref);
 
 /* toklst.c */
 void		toklst_clear(t_ctx *c_ref, t_lst *toklst_ref);

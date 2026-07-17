@@ -6,13 +6,11 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 18:23:51 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 18:29:38 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 17:30:52 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
-
-void		log_cmd(const t_cmd *cmd_ref, size_t indent);
 
 void	log_env(const t_env *env_ref, size_t depth)
 {
