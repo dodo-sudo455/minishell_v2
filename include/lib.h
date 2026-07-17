@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 14:53:47 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:10:48 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ struct s_cmd
 t_cmd		*cmd_new(t_ctx *c_ref);
 void		cmd_drop(t_ctx *c_ref, t_cmd *cmd_ref);
 void		cmdlst_clear(t_ctx *c_ref, t_lst *cmdlst_ref);
+
+/* ---------------------------------- */
+/* doc                                */
+/* ---------------------------------- */
+
+void		doclst_push(t_ctx *c_ref, t_lst *doclst_ref, const char *fname);
+void		doclst_clear(t_ctx *c_ref, t_lst *doclst_ref);
 
 /* ---------------------------------- */
 /* log                                */
