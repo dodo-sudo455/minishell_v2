@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 15:08:05 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 15:11:09 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,27 @@ static void	_set_signal(t_ctx *c_ref)
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
-char	*prompt(t_ctx *c_ref)
+t_error	prompt(t_ctx *c_ref, char **input)
 {
-	char				*input;
+	char	*s;
 
+	*input = NULL;
 	_set_signal(c_ref);
 	while (1)
 	{
-		input = safe_readline(c_ref, "minishell> ");
-		if (!input)
+		s = safe_readline(c_ref, "minishell> ");
+		if (!s)
 		{
-			printf("exit\n");
-			ctx_clear(c_ref);
-			exit(1);
+			panic(c_ref, FATAL_EXIT, NULL);
 		}
-		if (!*input)
+		if (!*s)
 		{
 			safe_free(NULL, input);
 			continue ;
 		}
 		break ;
 	}
-	add_history(input);
-	return (input);
+	add_history(s);
+	*input = s;
+	return (ERROR_OK);
 }

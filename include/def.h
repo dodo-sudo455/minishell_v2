@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 17:31:36 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 15:16:38 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_ctx		t_ctx;
 typedef struct s_env		t_env;
-typedef enum e_error		t_error;
+typedef enum e_fatal		t_fatal;
 typedef t_lst				t_gc;
 
 /* ---------------------------------- */
@@ -40,7 +40,6 @@ struct s_ctx
 	t_gc		gc;
 	char		**envp;
 	t_lst		envlst;
-	t_lst		doclst;
 };
 
 /* ctx.c */
@@ -73,15 +72,15 @@ void		envlst_init(t_ctx *c_ref, t_lst *envlst_ref, char **envp);
 void		envlst_clear(t_ctx *c_ref, t_lst *envlst_ref);
 
 /* ---------------------------------- */
-/* error                              */
+/* fatal                              */
 /* ---------------------------------- */
 
-enum e_error
+enum e_fatal
 {
-	ERROR_OK,
-	ERROR_INTERNAL,
-	ERROR_DEBUG,
-	ERROR_SYN,
+	FATAL_OK,
+	FATAL_INTERNAL,
+	FATAL_DEBUG,
+	FATAL_EXIT,
 };
 
 /* ---------------------------------- */
@@ -98,7 +97,7 @@ void		gc_clear(t_gc *gc_ref);
 /* panic                              */
 /* ---------------------------------- */
 
-void		panic(t_ctx *c_ref, t_error err, const char *s);
+void		panic(t_ctx *c_ref, t_fatal err, const char *errparam);
 
 /* ---------------------------------- */
 /* safe                               */

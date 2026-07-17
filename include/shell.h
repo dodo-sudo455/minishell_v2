@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 14:09:20 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 15:27:58 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,50 @@
 # include "def.h"
 # include "lib.h"
 
+typedef struct s_session	t_session;
+typedef enum e_error		t_error;
+
+/* ---------------------------------- */
+/* error                              */
+/* ---------------------------------- */
+
+enum e_error
+{
+	ERROR_OK,
+	ERROR_QUOTE,
+	ERROR_SYN,
+};
+
+t_error		geterr(const t_session *s_ref);
+t_error		seterr(t_ctx *c_ref, t_session *s_ref,
+				t_error err, const char *errparam);
+
+/* ---------------------------------- */
+/* session                            */
+/* ---------------------------------- */
+
+struct s_session
+{
+	t_error	err;
+	char	*errparam;
+	char	*input;
+	t_lst	toklst;
+	t_lst	cmdlst;
+	t_lst	doclst;
+};
+
+t_session	session_make(void);
+void		session_clear(t_ctx *c_ref, t_session *s_ref);
+void		session_run(t_ctx *c_ref, t_session *s_ref);
+t_error		session_prompt(t_ctx *c_ref, t_session *s_ref);
+t_error		session_parse(t_ctx *c_ref, t_session *s_ref);
+t_error		session_exec(t_ctx *c_ref, t_session *s_ref);
+
 /* ---------------------------------- */
 /* prompt                             */
 /* ---------------------------------- */
 
-char		*prompt(t_ctx *c_ref);
+t_error		prompt(t_ctx *c_ref, char **input);
 
 /* ---------------------------------- */
 /* parse                              */
