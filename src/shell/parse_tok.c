@@ -6,12 +6,11 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 15:19:54 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 18:32:29 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
 
 static inline bool	_is_space(char c)
 {
