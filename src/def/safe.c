@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 18:41:03 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 17:06:00 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:10:33 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*safe_malloc(t_ctx *c_ref, size_t size)
 
 	p = gc_malloc(&c_ref->gc, size);
 	if (!p)
-		panic(c_ref, ERROR_INTERNAL, NULL);
+		panic(c_ref, FATAL_INTERNAL, NULL);
 	return (p);
 }
 
@@ -37,7 +37,7 @@ char	*safe_readline(t_ctx *c_ref, const char *prompt)
 	if (input && gc_push(&c_ref->gc, input) != 0)
 	{
 		free(input);
-		panic(c_ref, ERROR_INTERNAL, NULL);
+		panic(c_ref, FATAL_INTERNAL, NULL);
 	}
 	return (input);
 }
