@@ -6,13 +6,13 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 15:16:30 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 14:09:23 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-bool	parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref)
+t_error	parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref)
 {
 	if (!parse_is_quote_ok(input))
 		return (false);

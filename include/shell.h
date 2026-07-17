@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 14:09:20 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*prompt(t_ctx *c_ref);
 /* parse                              */
 /* ---------------------------------- */
 
-bool		parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
+t_error		parse(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
 bool		parse_is_quote_ok(const char *input);
 void		parse_tokenize(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
 // expand token only with WORD
@@ -37,11 +37,10 @@ void		parse_quote(t_ctx *c_ref, t_lst *toklst_ref);
 /* exec                               */
 /* ---------------------------------- */
 
-void		exec(t_ctx *c_ref, const t_lst *toklst_ref, t_lst *cmdlst_ref);
-void		exec_parse(t_ctx *c_ref, const t_lst *toklst_ref,
+t_error		exec(t_ctx *c_ref, const t_lst *toklst_ref, t_lst *cmdlst_ref);
+t_error		exec_parse(t_ctx *c_ref, const t_lst *toklst_ref,
 				t_lst *cmdlst_ref);
 void		exec_redir(t_ctx *c_ref, t_lst *cmdlst_ref);
-void		exec_pipe(t_ctx *c_ref, t_lst *cmdlst_ref);
 void		exec_run(t_ctx*c_ref, t_lst *cmdlst_ref);
 
 #endif // SHELL_H
