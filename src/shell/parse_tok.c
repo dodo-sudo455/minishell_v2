@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 15:19:54 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:50:10 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 18:36:26 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
 
 static inline bool	_is_space(char c)
 {

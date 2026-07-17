@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/17 18:30:50 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/17 18:35:09 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static void	_heredoc_readline(t_ctx *c_ref, char *delim)
 {
 	char	*input;
-	
+
 	while (1)
 	{
 		input = readline("> ");
@@ -90,7 +90,7 @@ void	exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref, t_lst *doclst_ref)
 	t_cmd	*cmd_ref;
 	t_redir	*red_ref;
 	int		heredoc_num;
-	
+
 	heredoc_num = 0;
 	cmd_node = cmdlst_ref->next;
 	while (cmd_node != cmdlst_ref)
