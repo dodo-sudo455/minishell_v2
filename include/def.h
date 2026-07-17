@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 15:16:38 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:13:24 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ struct s_ctx
 t_ctx		ctx_make(void);
 void		ctx_init(t_ctx *c_ref, char **envp);
 void		ctx_clear(t_ctx *c_ref);
-void		ctx_session_clear(t_ctx *c_ref);
-
-/* ctx_doc.c */
-void		ctx_doclst_push(t_ctx *c_ref, const char *fname);
-void		ctx_doclst_clear(t_ctx *c_ref);
 
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);

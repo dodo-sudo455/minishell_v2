@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 16:32:14 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/17 16:13:12 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,4 @@ void	ctx_init(t_ctx *c_ref, char **envp)
 void	ctx_clear(t_ctx *c_ref)
 {
 	envlst_clear(c_ref, &c_ref->envlst);
-	ctx_session_clear(c_ref);
-}
-
-void	ctx_session_clear(t_ctx *c_ref)
-{
-	gc_clear(&c_ref->gc);
-	ctx_doclst_clear(c_ref);
 }
