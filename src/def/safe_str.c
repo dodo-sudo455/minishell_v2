@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 14:59:00 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/18 14:28:56 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,25 @@ char	*safe_strndup(t_ctx *c_ref, const char *s, size_t n)
 	}
 	dup[len] = '\0';
 	return (dup);
+}
+
+char *safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2)
+{
+	size_t	slen1;
+	size_t	slen2;
+	size_t	dlen;
+	char	*d;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	slen1 = ft_strlen(s1);
+	slen2 = ft_strlen(s2);
+	dlen = slen1 + slen2;
+	d = (char *)safe_malloc(c_ref, sizeof(char) * (dlen + 1));
+	if (d == NULL)
+		return (NULL);
+	ft_memcpy(d, s1, slen1);
+	ft_memcpy(d + slen1, s2, slen2);
+	d[dlen] = '\0';
+	return (d);
 }

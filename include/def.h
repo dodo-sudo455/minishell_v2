@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   def.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:54:53 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/18 15:53:34 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ enum e_error
 	ERROR_OK,
 	ERROR_QUOTE,
 	ERROR_SYN,
+	ERROR_ABORT,
 };
 
 t_error		geterr(const t_ctx *c_ref);
@@ -142,6 +143,13 @@ void		safe_sigaction(t_ctx *c_ref, int signum,
 /* safe_str.c */
 char		*safe_strdup(t_ctx *c_ref, const char *s);
 char		*safe_strndup(t_ctx *c_ref, const char *s, size_t n);
+char		*safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2);
+
+/* safe_uni.c */
+void		safe_dup2(t_ctx *c_ref, int fd, int fd2);
+void		safe_close(t_ctx *c_ref, int fd);
+int			safe_open(t_ctx *c_ref, const char *file, int oflag, int opt);
+pid_t		safe_fork(t_ctx *c_ref);
 
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);

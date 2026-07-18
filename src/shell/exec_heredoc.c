@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/17 18:35:09 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/18 16:08:15 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	_heredoc_readline(t_ctx *c_ref, char *delim)
 
 	while (1)
 	{
-		input = readline("> ");
+		input = safe_readline(c_ref, "> ");
 		if (!input)
 		{
 			write(2, "warning\n", 8);
@@ -52,44 +52,58 @@ static void	_heredoc_input(t_ctx *c_ref, t_redir *red_ref,
 	int		fd;
 
 	delim = red_ref->s;
-	fname = ft_strjoin("/tmp/minishell-heredoc-", ft_itoa(heredoc_num));
-	fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd < 0)
-		panic(c_ref, FATAL_INTERNAL, NULL);
-	red_ref->s = fname;
-	safe_lst_push(c_ref, doclst_ref, fname);
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		panic(c_ref, FATAL_INTERNAL, NULL);
-	close(fd);
+	fd = safe_open(c_ref, fname, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	safe_dup2(c_ref, fd, STDOUT_FILENO);
+	safe_close(c_ref, fd);
 	_heredoc_readline(c_ref, delim);
 	safe_free(c_ref, delim);
 	exit(0);
 }
 
-static void	_heredoc_fork(t_ctx *c_ref, t_redir *red_ref,
+static t_error	_heredoc_fork(t_ctx *c_ref, t_redir *red_ref,
 								t_lst *doclst_ref, int heredoc_num)
 {
+	char	*fname;
+	char	*delim;
 	pid_t	pid;
 	int		status;
 
-	pid = fork();
-	if (pid < 0)
-		panic(c_ref, FATAL_INTERNAL, NULL);
+	delim = red_ref->s;
+	fname = safe_strjoin(c_ref, "/tmp/minishell-heredoc-",
+		ft_itoa(heredoc_num));
+	red_ref->s = fname;
+	safe_lst_push(c_ref, doclst_ref, fname);
+	pid = safe_fork(c_ref);
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		return ;
+		return (WEXITSTATUS(status));
 	}
-	_heredoc_input(c_ref, red_ref, doclst_ref, heredoc_num);
+	else
+		_heredoc_input(c_ref, red_ref, doclst_ref, heredoc_num);
 }
 
-void	exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref, t_lst *doclst_ref)
+//static void	_open_redir(t_ctx *c_ref, t_redir *red_ref)
+//{
+//	int	fd;
+
+//	if (red_ref->t == REDIR_IN)
+//		fd = open(red_ref->s, O_RDONLY);
+//	else if (red_ref->t == REDIR_OUT)
+//		fd = open(red_ref->s, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+//	if (fd < 0)
+//		perror("minishe ~~");
+//		exit();
+//}
+
+t_error	exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref, t_lst *doclst_ref)
 {
 	t_lst	*cmd_node;
 	t_lst	*red_node;
 	t_cmd	*cmd_ref;
 	t_redir	*red_ref;
 	int		heredoc_num;
+	int		status;
 
 	heredoc_num = 0;
 	cmd_node = cmdlst_ref->next;
@@ -102,8 +116,10 @@ void	exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref, t_lst *doclst_ref)
 			red_ref = red_node->data;
 			if (red_ref->t == REDIR_HDOC)
 			{
-				_heredoc_fork(c_ref, red_ref, doclst_ref, heredoc_num);
-				heredoc_num++;
+				status = _heredoc_fork(c_ref, red_ref, doclst_ref, heredoc_num);
+				if (status == 130)
+					return (ERROR_ABORT);
+				heredoc_num += 1;
 			}
 			red_node = red_node->next;
 		}
