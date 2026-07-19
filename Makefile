@@ -3,7 +3,8 @@
 #--------------------------------------#
 
 # main source codes
-APP				:= minishell
+NAME			:= minishell
+APP				:= $(NAME)
 APP_DIR			:= app
 APP_CODES		:= $(shell find $(APP_DIR) -name '*.c')
 APP_OBJS		:= $(APP_CODES:.c=.o)
@@ -11,11 +12,14 @@ APP_OBJS		:= $(APP_CODES:.c=.o)
 BIN_DIR			:= bin
 INC_DIR			:= include
 
+LIBFT_DIR		:= libft
+LIBFT			:= libft/libft.a
+
 CC				:= cc
-CFLAGS			:= -Wall -Wextra -Werror 
-CFLAGS			+= -I $(INC_DIR) -I libft
+CFLAGS			:= -Wall -Wextra -Werror
+CFLAGS			+= -I $(INC_DIR) -I $(LIBFT_DIR)
 CFLAGS			+= $(DBG)	# make DBG="-g"
-LDLIBS			:= -lreadline -Llibft -lft
+CLIBS			:= -lreadline
 
 SRC_DIR			:= src
 SRC_CODES		:= $(shell find $(SRC_DIR) -name '*.c')
@@ -57,13 +61,18 @@ re: fclean all
 #--------------------------------------#
 
 .PHONY: app
-app: $(APP)
+app: $(NAME)
 
-libft/libft.a:
-	$(MAKE) -C libft
+$(NAME): $(SRC_OBJS) $(APP_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
 
-$(APP): $(SRC_OBJS) $(APP_OBJS) libft/libft.a
-	$(CC) $(CFLAGS) -o $@ $(SRC_OBJS) $(APP_OBJS) $(LDLIBS)
+#--------------------------------------#
+#- LIBFT ------------------------------#
+#--------------------------------------#
+
+.PHONY: $(LIBFT)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 #--------------------------------------#
 #- SRC --------------------------------#
@@ -77,16 +86,16 @@ src: $(SRC_OBJS)
 #--------------------------------------#
 
 .PHONY: test
-test: $(BIN_DIR) $(TEST_NAMES)
+test: $(LIBFT) $(BIN_DIR) $(TEST_NAMES)
 
 .SECONDEXPANSION:
 %_test: \
+	$(LIBFT) \
 	$(SRC_OBJS) \
 	$(TEST_SRC_OBJS) \
-	libft/libft.a \
 	$$(shell find $(TEST_DIR)/$$*_test -type f -name '*.c' | sed 's/\.c/\.o/') | \
 	$(BIN_DIR)	# order only prerequisite
-	$(CC) $(CFLAGS) -I $(TEST_INC_DIR) -o $(BIN_DIR)/$@ $^ -L libft -lft -lreadline
+	$(CC) $(CFLAGS) -I $(TEST_INC_DIR) -o $(BIN_DIR)/$@ $^
 
 #--------------------------------------#
 #- COMMONS ----------------------------#
