@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   session_run.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:53:27 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:23:39 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+// Calling `session_clear` is not necessary.
 void	session_run(t_ctx *c_ref, t_session *s_ref)
 {
 	if (session_prompt(c_ref, s_ref) != ERROR_OK)
@@ -40,7 +41,7 @@ t_error	session_parse(t_ctx *c_ref, t_session *s_ref)
 // TODO
 t_error	session_exec(t_ctx *c_ref, t_session *s_ref)
 {
-	(void)c_ref;
-	(void)s_ref;
+	if (exec_heredoc(c_ref, &s_ref->cmdlst) != ERROR_OK)
+		return (geterr(c_ref));
 	return (ERROR_OK);
 }

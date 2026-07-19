@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:40:01 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:24:14 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ struct s_session
 	char	*input;
 	t_lst	toklst;
 	t_lst	cmdlst;
-	t_lst	doclst;
 };
 
 t_session	session_make(void);
@@ -61,7 +60,7 @@ t_error		parse_command(t_ctx *c_ref,
 /* ---------------------------------- */
 
 t_error		exec(t_ctx *c_ref, const t_lst *toklst_ref, t_lst *cmdlst_ref);
-void		exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref, t_lst *doclst_ref);
+t_error		exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref);
 void		exec_run(t_ctx*c_ref, t_lst *cmdlst_ref);
 
 #endif // SHELL_H

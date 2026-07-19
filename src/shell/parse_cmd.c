@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 17:45:26 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:00:37 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_error	_parse_redir(t_ctx *c_ref, t_cmd *cmd_ref, t_lst *nod_ref)
 	if (!token_is_word(tokref_arr[1]))
 		return (seterr(c_ref, ERROR_SYN, tokref_arr[1]->s));
 	red_ref = redir_new(c_ref,
-			token_to_redirtype(tokref_arr[0]), tokref_arr[1]->s);
+			token_to_redirtype(tokref_arr[0]), tokref_arr[1]);
 	safe_lst_push(c_ref, &cmd_ref->redlst, red_ref);
 	return (ERROR_OK);
 }
