@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_vec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:39:29 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 15:03:49 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c)
 
 	if (!vec_ref->arr)
 	{
+		if (vec_ref->cap == 0)
+			vec_ref->cap = 16;
 		vec_ref->arr = safe_malloc(c_ref, sizeof(char) * vec_ref->cap);
 	}
 	else if (vec_ref->len == vec_ref->cap)
@@ -54,6 +56,8 @@ char	*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref)
 	char	*s;
 
 	s = safe_malloc(c_ref, sizeof(char) * (vec_ref->len + 1));
-	ft_strlcpy(s, vec_ref->arr, vec_ref->len + 1);
+	if (vec_ref->len > 0)
+		ft_memcpy(s, vec_ref->arr, vec_ref->len);
+	s[vec_ref->len] = '\0';
 	return (s);
 }

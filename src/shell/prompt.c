@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 15:11:09 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 16:01:21 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
