@@ -1,43 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe.c                                             :+:      :+:    :+:   */
+/*   safe_uni.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/15 18:41:03 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/18 14:20:52 by doyelee          ###   ########.fr       */
+/*   Created: 2026/07/18 14:20:31 by doyelee           #+#    #+#             */
+/*   Updated: 2026/07/19 14:28:56 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
-void	*safe_malloc(t_ctx *c_ref, size_t size)
+void	safe_dup2(t_ctx *c_ref, int fd, int fd2)
 {
-	void	*p;
-
-	p = gc_malloc(&c_ref->gc, size);
-	if (!p)
+	if (dup2(fd, fd2) == -1)
 		panic(c_ref, FATAL_INTERNAL, NULL);
-	return (p);
 }
 
-void	safe_free(t_ctx *c_ref, void *p)
+void	safe_close(t_ctx *c_ref, int fd)
 {
-	gc_free(&c_ref->gc, p);
+	if (close(fd) < 0)
+		panic(c_ref, FATAL_INTERNAL, NULL);
 }
 
-char	*safe_readline(t_ctx *c_ref, const char *prompt)
+int	safe_open(t_ctx *c_ref, const char *file, int oflag, int opt)
 {
-	char	*input;
+	int	fd;
 
-	input = readline(prompt);
-	if (input && gc_push(&c_ref->gc, input) != 0)
+	fd = open(file, oflag, opt);
+	if (fd < 0 && errno != ENOENT)
 	{
-		free(input);
 		panic(c_ref, FATAL_INTERNAL, NULL);
 	}
-	return (input);
+	return (fd);
+}
+
+pid_t	safe_fork(t_ctx *c_ref)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		panic(c_ref, FATAL_INTERNAL, NULL);
+	return (pid);
 }

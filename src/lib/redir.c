@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 18:31:05 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/15 18:32:54 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:00:25 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-t_redir	*redir_new(t_ctx *c_ref, t_redirtype type, const char *fname)
+t_redir	*redir_new(t_ctx *c_ref, t_redirtype type, const t_token *word_ref)
 {
 	t_redir	*red;
 
 	red = safe_malloc(c_ref, sizeof(t_redir));
 	red->t = type;
-	red->s = safe_strdup(c_ref, fname);
+	red->s = safe_strdup(c_ref, word_ref->s);
+	red->has_quote = word_ref->has_quote;
 	return (red);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 17:54:29 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:00:19 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ struct s_redir
 {
 	t_redirtype	t;
 	char		*s;
+	int			fd;
+	bool		has_quote;
 };
 
-t_redir		*redir_new(t_ctx *c_ref, t_redirtype type, const char *fname);
+t_redir		*redir_new(t_ctx *c_ref, t_redirtype type, const t_token *word_ref);
 void		redir_drop(t_ctx *c_ref, t_redir *red_ref);
 void		redlst_clear(t_ctx *c_ref, t_lst *redlst_ref);
 

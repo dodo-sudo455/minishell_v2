@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   session.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:13:28 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:55:06 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:04:23 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_session	session_make(void)
 	s.input = NULL;
 	s.toklst = ft_lst_make();
 	s.cmdlst = ft_lst_make();
-	s.doclst = ft_lst_make();
 	return (s);
 }
 

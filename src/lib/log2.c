@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   log2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 18:23:51 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 17:30:52 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/19 14:02:53 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ void	log_redir(const t_redir *red_ref, size_t depth)
 	printf("t: %s\n", redirtype_to_str(red_ref->t));
 	log_depth(depth + 1);
 	printf("s: \"%s\"\n", red_ref->s);
+	log_depth(depth + 1);
+	if (red_ref->has_quote)
+		printf("has_quote: true\n");
+	else
+		printf("has_quote: false\n");
 	log_depth(depth);
 	printf("}");
 }
