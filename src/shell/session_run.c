@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 14:23:39 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/19 15:03:49 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_error	session_parse(t_ctx *c_ref, t_session *s_ref)
 	parse_tokenize(c_ref, s_ref->input, &s_ref->toklst);
 	parse_expand(c_ref, &s_ref->toklst);
 	parse_quote(c_ref, &s_ref->toklst);
+	if (parse_command(c_ref, &s_ref->toklst, &s_ref->cmdlst) != ERROR_OK)
+		return (geterr(c_ref));
 	return (ERROR_OK);
 }
 

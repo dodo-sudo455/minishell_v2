@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 14:00:19 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/19 16:14:18 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ struct s_redir
 {
 	t_redirtype	t;
 	char		*s;
-	int			fd;
 	bool		has_quote;
+	int			docfd;
 };
 
 t_redir		*redir_new(t_ctx *c_ref, t_redirtype type, const t_token *word_ref);
