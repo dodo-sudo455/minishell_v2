@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/18 14:28:56 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/19 14:28:45 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*safe_strndup(t_ctx *c_ref, const char *s, size_t n)
 	return (dup);
 }
 
-char *safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2)
+char	*safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2)
 {
 	size_t	slen1;
 	size_t	slen2;

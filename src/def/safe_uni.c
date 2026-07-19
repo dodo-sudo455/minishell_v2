@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:20:31 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/18 15:16:46 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/19 14:28:56 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	safe_close(t_ctx *c_ref, int fd)
 		panic(c_ref, FATAL_INTERNAL, NULL);
 }
 
-int		safe_open(t_ctx *c_ref, const char *file, int oflag, int opt)
+int	safe_open(t_ctx *c_ref, const char *file, int oflag, int opt)
 {
 	int	fd;
 

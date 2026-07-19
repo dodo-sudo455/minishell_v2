@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/19 14:15:35 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/19 14:28:30 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	_heredoc_readline(t_ctx *c_ref, const char *delim, bool is_expand)
 }
 
 // unlink로 디렉터리 엔트리 삭제하고 열린 fd로만 접근하면 파일이 디스크에 남지 않아 안전하다고 함.. 알아보기
-static void	_heredoc_input(t_ctx *c_ref, int fd, const char *delim, bool is_expand)
+static void	_heredoc_input(
+	t_ctx *c_ref, int fd, const char *delim, bool is_expand)
 {
 	safe_dup2(c_ref, fd, STDOUT_FILENO);
 	safe_close(c_ref, fd);
@@ -60,7 +61,8 @@ static int	_handle_heredoc(t_ctx *c_ref, t_redir *red_ref)
 	pid_t	pid;
 	int		status;
 
-	red_ref->fd = safe_open(c_ref, HEREDOC_FNAME, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	red_ref->fd = safe_open(c_ref, HEREDOC_FNAME,
+			O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	unlink(HEREDOC_FNAME);
 	pid = safe_fork(c_ref);
 	if (pid > 0)
@@ -73,13 +75,12 @@ static int	_handle_heredoc(t_ctx *c_ref, t_redir *red_ref)
 	return (0);
 }
 
-static int _handle_cmd(
-	t_ctx *c_ref, t_cmd *cmd_ref)
+static int	_handle_cmd(t_ctx *c_ref, t_cmd *cmd_ref)
 {
 	t_lst	*red_node;
 	t_redir	*red_ref;
 	int		status;
-	
+
 	red_node = cmd_ref->redlst.next;
 	while (red_node != &cmd_ref->redlst)
 	{
