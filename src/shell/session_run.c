@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   session_run.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 15:03:49 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:35:22 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
