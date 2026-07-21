@@ -1,8 +1,8 @@
 # Pseudo Code: Parse
 
-## parse_tokenize2
+## parse_split_word
 ```go
-parse_tokenize2(ctx, toklst):
+parse_split_word(ctx, toklst):
 	for node in range toklst:
 		token := node.data;
 		if token.type != WORD:

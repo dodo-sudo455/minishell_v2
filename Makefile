@@ -95,7 +95,8 @@ test: $(LIBFT) $(BIN_DIR) $(TEST_NAMES)
 	$(TEST_SRC_OBJS) \
 	$$(shell find $(TEST_DIR)/$$*_test -type f -name '*.c' | sed 's/\.c/\.o/') | \
 	$(BIN_DIR)	# order only prerequisite
-	$(CC) $(CFLAGS) -I $(TEST_INC_DIR) -o $(BIN_DIR)/$@ $^
+	$(CC) $(CFLAGS) -I $(TEST_INC_DIR) -o $(BIN_DIR)/$@ \
+		$(filter-out $(LIBFT), $^) $(LIBFT) $(CLIBS)
 
 #--------------------------------------#
 #- COMMONS ----------------------------#
