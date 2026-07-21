@@ -24,30 +24,7 @@ exec_run(ctx, cmdlst):
 	last_status := wait_all(cmdlst)
 	ctx_update_status(ctx, last_status)
 
-
 exec_run_cmd(ctx, cmd, infd, outfd):
-	
-	set_sig_child()
-	
-	dup2(infd, STDIN)
-	dup2(outfd, STDOUT)
-	
-	for node in range cmd.redlst:
-		redir := node.data
-		fd := open(redir.str)
-		
-		if (redir.type == IN || redir.type == HDOC):
-			dup2(fd, STDIN)
-		else:
-			dup2(fd, STDOUT)
-	
-	res := cmd_run(ctx, cmd)
-	if (res == ERROR)
-		exit(1)
-	else
-		exit(0)
-
-cmd_run(cmd, infd, outfd):
 	if (is_built_in(cmd)):
 		tmp_stdin = dup(0)
 		tmp_stdout = dup(1)
@@ -57,11 +34,27 @@ cmd_run(cmd, infd, outfd):
 	if (outfd >= 0):
 		dup2(outfd, 1)
 
-	handle_redir(cmd.redlst)
+	_handle_redir(cmd.redlst)
 
-	_cmd_run(..)
+	res := cmd_run(..)
 
 	if (is_built_in(cmd)):
 		dup2(tmp_stdin, 0)
 		dup2(tmp_stdout, 1)
+		return (res);
+
+	if (res == ERROR)
+		exit(1)
+	else
+		exit(0)
+
+_handle_redir(ctx, redlst):
+	for node in range cmd.redlst:
+		redir := node.data
+		fd := open(redir.str)
+		
+		if (redir.type == IN || redir.type == HDOC):
+			dup2(fd, STDIN)
+		else:
+			dup2(fd, STDOUT)
 ```
