@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 11:49:05 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 11:54:28 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 17:28:58 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ int	main(int argc, char **argv, char **envp)
 	ctx_clear(&c);
 	return (0);
 }
-

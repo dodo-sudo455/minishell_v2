@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 11:44:59 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 15:21:14 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ struct s_ctx
 	t_lst		envlst;
 	t_error		err;
 	char		*errparam;
+	int			status;
 };
 
 /* ctx.c */
@@ -81,6 +82,8 @@ void		ctx_clear_err(t_ctx *c_ref);
 
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);
+void		ctx_setenv(t_ctx *c_ref, const char *key, const char *val);
+void		ctx_setstatus(t_ctx *c_ref, int stat);
 void		ctx_expand(t_ctx *c_ref, char **s);
 
 /* ---------------------------------- */
@@ -145,12 +148,14 @@ void		safe_sigaction(t_ctx *c_ref, int signum,
 char		*safe_strdup(t_ctx *c_ref, const char *s);
 char		*safe_strndup(t_ctx *c_ref, const char *s, size_t n);
 char		*safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2);
+char		*safe_itoa(t_ctx *c_ref, int n);
 
 /* safe_uni.c */
 void		safe_dup2(t_ctx *c_ref, int fd, int fd2);
 void		safe_close(t_ctx *c_ref, int fd);
 int			safe_open(t_ctx *c_ref, const char *file, int oflag, int opt);
-pid_t		safe_fork(t_ctx *c_ref);
+pid_t		safe_fork(t_ctx *c_ref, pid_t *pid_ref);
+void		safe_pipe(t_ctx *c_ref, int fd[2]);
 
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);

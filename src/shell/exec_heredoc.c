@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/19 16:57:15 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/21 17:01:23 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ static int	_handle_heredoc(
 	red_ref->docfd = safe_open(c_ref, HEREDOC_FNAME,
 			O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	unlink(HEREDOC_FNAME);
-	pid = safe_fork(c_ref);
-	if (pid > 0)
+	if (safe_fork(c_ref, &pid) > 0)
 	{
 		waitpid(pid, &status, 0);
 		safe_sigaction(c_ref, SIGINT, &old_int, NULL);
