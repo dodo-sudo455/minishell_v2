@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/20 15:15:22 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 14:21:44 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct s_cmd
 t_cmd		*cmd_new(t_ctx *c_ref);
 void		cmd_drop(t_ctx *c_ref, t_cmd *cmd_ref);
 t_error		cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref);
+bool		cmd_is_built_in(const t_cmd *cmd_ref);
 void		cmdlst_clear(t_ctx *c_ref, t_lst *cmdlst_ref);
 
 /* ---------------------------------- */

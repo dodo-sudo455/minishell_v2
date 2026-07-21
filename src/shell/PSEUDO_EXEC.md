@@ -46,4 +46,22 @@ exec_run_cmd(ctx, cmd, infd, outfd):
 		exit(1)
 	else
 		exit(0)
+
+cmd_run(cmd, infd, outfd):
+	if (is_built_in(cmd)):
+		tmp_stdin = dup(0)
+		tmp_stdout = dup(1)
+	
+	if (infd >= 0):
+		dup2(infd, 0)
+	if (outfd >= 0):
+		dup2(outfd, 1)
+
+	handle_redir(cmd.redlst)
+
+	_cmd_run(..)
+
+	if (is_built_in(cmd)):
+		dup2(tmp_stdin, 0)
+		dup2(tmp_stdout, 1)
 ```
