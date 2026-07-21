@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   def.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 16:12:23 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/21 11:44:59 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void		safe_lst_remove_with(t_ctx *c_ref,
 /* safe_lst2.c */
 void		safe_lst_push(t_ctx *c_ref, t_lst *lst_ref, void *data);
 void		*safe_lst_pop_front(t_ctx *c_ref, t_lst *lst_ref);
+t_lst		*safe_lst_insert(t_ctx *c_ref, t_lst *nod_ref, void *data);
 
 /* safe_sig.c */
 void		safe_sigemptyset(t_ctx *c_ref, sigset_t *set);
