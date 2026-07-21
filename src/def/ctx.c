@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 16:56:03 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 15:18:19 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ctx_init(t_ctx *c_ref, char **envp)
 {
 	*c_ref = ctx_make();
 	envlst_init(c_ref, &c_ref->envlst, envp);
+	ctx_setstatus(c_ref, 0);
 }
 
 void	ctx_clear(t_ctx *c_ref)
