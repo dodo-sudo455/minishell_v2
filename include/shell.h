@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 11:36:23 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 11:56:47 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void		parse_tokenize(t_ctx *c_ref, const char *input, t_lst *toklst_ref);
 // expand token only with WORD
 void		parse_expand(t_ctx *c_ref, t_lst *toklst_ref);
 // split WORD by SPACE char
-void		parse_tokenize2(t_ctx *c_ref, t_lst *toklst_ref);
+void		parse_split_word(t_ctx *c_ref, t_lst *toklst_ref);
 void		_parse_split_word(t_ctx *c_ref, const char *s, t_lst *lst_ref);
 // 1. check quote syntax, 2. remove quote
 void		parse_quote(t_ctx *c_ref, t_lst *toklst_ref);

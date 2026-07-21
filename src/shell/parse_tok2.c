@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 10:36:50 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 11:46:50 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 11:56:47 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	_handle_word(t_ctx *c_ref, t_lst *nod_ref)
 	}
 }
 
-void	parse_tokenize2(t_ctx *c_ref, t_lst *toklst_ref)
+void	parse_split_word(t_ctx *c_ref, t_lst *toklst_ref)
 {
 	t_lst	*nod_ref;
 	t_lst	*next_ref;
