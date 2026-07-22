@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:51:53 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 16:33:15 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:47:38 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ static void	_cmd_drop(t_ctx *c_ref, void *data)
 void	cmdlst_clear(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
 	safe_lst_clear_with(c_ref, cmdlst_ref, _cmd_drop);
+}
+
+bool	cmd_is_built_in(const t_cmd *cmd_ref)
+{
+	char	*name;
+
+	if (!cmd_ref || ft_lst_is_empty(&cmd_ref->arglst))
+		return (false);
+	name = (char *)cmd_ref->arglst.next->data;
+	return (ft_strcmp(name, "echo") == 0
+		|| ft_strcmp(name, "cd") == 0
+		|| ft_strcmp(name, "pwd") == 0
+		|| ft_strcmp(name, "export") == 0
+		|| ft_strcmp(name, "unset") == 0
+		|| ft_strcmp(name, "env") == 0
+		|| ft_strcmp(name, "exit") == 0);
 }

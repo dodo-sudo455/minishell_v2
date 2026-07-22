@@ -6,12 +6,13 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 17:27:51 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:47:38 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include <sys/wait.h>
+#include <stdlib.h>
 
 static void	_set_sig_parent(t_ctx *c_ref)
 {
@@ -53,7 +54,7 @@ static void	_exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 		if (nod_ref->next != cmdlst_ref)
 			safe_pipe(c_ref, pipefd);
 		if (safe_fork(c_ref, &((t_cmd *)nod_ref->data)->pid) == 0)
-			exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]);
+			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
 		if (prevfd >= 0)
 			safe_close(c_ref, prevfd);
 		prevfd = pipefd[0];
@@ -71,6 +72,11 @@ void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 	t_cmd	*cmd_ref;
 	int		status;
 
+	if (ft_lst_is_empty(cmdlst_ref))
+	{
+		ctx_setstatus(c_ref, 0);
+		return ;
+	}
 	nod_ref = cmdlst_ref->next;
 	if (ft_lst_size(cmdlst_ref) == 1 && cmd_is_built_in(nod_ref->data))
 	{

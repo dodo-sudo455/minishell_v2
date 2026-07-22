@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 14:26:28 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/22 15:10:43 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void		logerr(t_ctx *c_ref);
 
 enum e_fatal
 {
-	FATAL_OK,
-	FATAL_INTERNAL,
-	FATAL_DEBUG,
-	FATAL_EXIT,
+	FATAL_OK = 0,
+	FATAL_INTERNAL = 1,
+	FATAL_DEBUG = 1,
+	FATAL_EXIT = 1,
 };
 
 /* ---------------------------------- */

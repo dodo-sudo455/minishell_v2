@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 14:28:56 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:47:38 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 	size_t	i;
 
 	cmd = arglst.next->data;
+	if (!env_path)
+		return (NULL);
 	paths = safe_split(c_ref, env_path, ':');
 	i = 0;
 	while (paths[i])
@@ -37,11 +39,11 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 	return (safe_split_free(c_ref, paths), NULL);
 }
 
-static char	**_arglst_to_argv(t_ctx *c_ref, t_lst *arglst)
+static char	**_arglst_to_argv(t_ctx *c_ref, const t_lst *arglst)
 {
 	size_t	n;
 	char	**argv;
-	t_lst	*p;
+	const t_lst	*p;
 	size_t	i;
 
 	n = ft_lst_size(arglst);
@@ -57,7 +59,7 @@ static char	**_arglst_to_argv(t_ctx *c_ref, t_lst *arglst)
 	return (argv);
 }
 
-static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, t_lst *arglst)
+static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
 {
 	char	**argv;
 	char	*errmsg;
@@ -88,9 +90,11 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*cmd_path;
 
+	if (ft_lst_is_empty(&cmd_ref->arglst))
+		return (0);
 	if (cmd_is_built_in(cmd_ref))
 	{
-		printf("%s\n", cmd_ref->arglst.data);
+		printf("%s\n", (char *)cmd_ref->arglst.next->data);
 		return (0);
 	}
 	if (ft_strchr(cmd_ref->arglst.next->data, '/') == NULL)

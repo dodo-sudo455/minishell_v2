@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/21 17:01:23 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/22 15:04:25 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,15 @@ static int	_handle_heredoc(
 {
 	pid_t				pid;
 	int					status;
+	int					wfd;
 
-	red_ref->docfd = safe_open(c_ref, HEREDOC_FNAME,
+	wfd = safe_open(c_ref, HEREDOC_FNAME,
 			O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	red_ref->docfd = safe_open(c_ref, HEREDOC_FNAME, O_RDONLY, 0);
 	unlink(HEREDOC_FNAME);
 	if (safe_fork(c_ref, &pid) > 0)
 	{
+		safe_close(c_ref, wfd);
 		waitpid(pid, &status, 0);
 		safe_sigaction(c_ref, SIGINT, &old_int, NULL);
 		if (WIFEXITED(status))
@@ -86,7 +89,7 @@ static int	_handle_heredoc(
 		return (status);
 	}
 	else
-		_heredoc_child(c_ref, red_ref->docfd, red_ref->s, !red_ref->has_quote);
+		_heredoc_child(c_ref, wfd, red_ref->s, !red_ref->has_quote);
 	return (0);
 }
 

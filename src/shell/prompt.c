@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 16:01:21 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/22 15:10:54 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ t_error	prompt(t_ctx *c_ref, char **input)
 		s = safe_readline(c_ref, "minishell> ");
 		if (!s)
 		{
-			panic(c_ref, FATAL_EXIT, NULL);
+			ctx_clear(c_ref);
+			exit(0);
 		}
 		if (!*s)
 		{
-			safe_free(NULL, input);
+			safe_free(c_ref, s);
 			continue ;
 		}
 		break ;

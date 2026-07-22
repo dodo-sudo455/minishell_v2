@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:20:31 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/21 14:34:50 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:54:01 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	safe_close(t_ctx *c_ref, int fd)
 		panic(c_ref, FATAL_INTERNAL, NULL);
 }
 
+/// @todo checkout again
 int	safe_open(t_ctx *c_ref, const char *file, int oflag, int opt)
 {
 	int	fd;
