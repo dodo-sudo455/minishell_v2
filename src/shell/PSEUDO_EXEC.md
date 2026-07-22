@@ -1,5 +1,19 @@
 # Pseudo Code: Exec
 
+## `status`
+두가지 경우가 있음
+- 정상 종료: `exit(code)` 또는 `return code`로 끝난 경우
+- 시그널 종료
+
+정상 종료인 경우
+- `WIFEXITED(status)`: 정상 종료면 `true` 아니면 `false` 반환
+- `WEXITSTATUS(status)`: `exit(code)`에 인자로 전달된 코드 반환
+
+시그널 종료인 경우
+- `WIFSIGNALED(status)`: 시그널 종료면 `true` 반환
+- `WTERMSIG(status)`: 시그널 번호 반환
+
+
 ## exec_run
 ```go
 exec_run(ctx, cmdlst):
@@ -22,6 +36,8 @@ exec_run(ctx, cmdlst):
 		prev_readfd = pipefd[0]
 	
 	last_status := wait_all(cmdlst)
+	if (WIFEXITED(&last_status))
+	
 	ctx_update_status(ctx, last_status)
 
 exec_run_cmd(ctx, cmd, infd, outfd):

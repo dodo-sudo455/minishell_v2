@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   safe_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:10 by minseobk          #+#    #+#             */
 /*   Updated: 2026/07/22 14:16:38 by doyelee          ###   ########.fr       */
@@ -66,4 +66,14 @@ char	*safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2)
 	ft_memcpy(d + slen1, s2, slen2);
 	d[dlen] = '\0';
 	return (d);
+}
+
+char	*safe_itoa(t_ctx *c_ref, int n)
+{
+	char	*s;
+
+	s = ft_itoa(n);
+	if (gc_push(&c_ref->gc, s) != 0)
+		panic(c_ref, FATAL_INTERNAL, NULL);
+	return (s);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_uni.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:20:31 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/19 14:28:56 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/21 14:34:50 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,20 @@ int	safe_open(t_ctx *c_ref, const char *file, int oflag, int opt)
 	return (fd);
 }
 
-pid_t	safe_fork(t_ctx *c_ref)
+pid_t	safe_fork(t_ctx *c_ref, pid_t *pid_ref)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)
 		panic(c_ref, FATAL_INTERNAL, NULL);
+	if (pid_ref)
+		*pid_ref = pid;
 	return (pid);
+}
+
+void	safe_pipe(t_ctx *c_ref, int fd[2])
+{
+	if (pipe(fd) < 0)
+		panic(c_ref, FATAL_INTERNAL, NULL);
 }

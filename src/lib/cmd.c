@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:51:53 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 15:07:51 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/21 16:33:15 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_cmd	*cmd_new(t_ctx *c_ref)
 	cmd_ref = safe_malloc(c_ref, sizeof(t_cmd));
 	cmd_ref->arglst = ft_lst_make();
 	cmd_ref->redlst = ft_lst_make();
+	cmd_ref->pid = -1;
 	return (cmd_ref);
 }
 
