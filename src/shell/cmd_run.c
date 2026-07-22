@@ -6,25 +6,23 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/21 17:44:56 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:11:36 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-static _free_double(char **s)
+static void	_free_double_pointer(t_ctx *c_ref, char **s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
-		free(s[i++]);
-	free(s);
+		safe_free(c_ref, s[i++]);
+	safe_free(c_ref, s);
 }
 
-/*
-	ft_split safe 버전 만들면 라인 수 줄어들 듯..
-*/
+// ft_split safe 버전 만들면 라인 수 줄어들 듯..
 static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 {
 	char	*cmd;
@@ -45,18 +43,63 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 		safe_free(c_ref, path);
 		if (access(candidate, X_OK) == 0)
 		{
-			_free_double(paths);
+			_free_double_pointer(c_ref, paths);
 			return (candidate);
 		}
-		free(candidate);
+		safe_free(c_ref, candidate);
 		i += 1;
 	}
-	_free_double(paths);
+	_free_double_pointer(c_ref, paths);
 	return (NULL);
 }
 
-// error : 1 return
-// ❗ cmd_ref->arglst, c_ref->envlst를 이중 포인터로 저장해야 함
+static char	**_arglst_to_argv(t_ctx *c_ref, t_lst *arglst)
+{
+	size_t	n;
+	char	**argv;
+	t_lst	*p;
+	size_t	i;
+
+	n = ft_lst_size(arglst);
+	argv = safe_malloc(c_ref, sizeof(char *) * (n + 1));
+	p = arglst->next;
+	i = 0;
+	while (p && p != arglst)
+	{
+		argv[i++] = safe_strdup(c_ref, (char *)p->data);
+		p = p->next;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
+static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, t_lst *arglst)
+{
+	char	**argv;
+	char	*errmsg;
+	char	*temp;
+
+	if (cmd_path)
+	{
+		argv = _arglst_to_argv(c_ref, arglst);
+		execve(cmd_path, argv, c_ref->envp);
+		temp = safe_strjoin(c_ref, "minishell: ", cmd_path);
+		errmsg = safe_strjoin(c_ref, temp, ": ");
+		perror(errmsg);
+		safe_free(c_ref, temp);
+		safe_free(c_ref, errmsg);
+		_free_double_pointer(c_ref, argv);
+	}
+	if (!cmd_path)
+	{
+		temp = safe_strjoin(c_ref, "minishell: ", arglst->next->data);
+		errmsg = safe_strjoin(c_ref, temp, ": command not found\n");
+		write(2, errmsg, ft_strlen(errmsg));
+		safe_free(c_ref, temp);
+		safe_free(c_ref, errmsg);
+	}
+}
+
 int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*cmd_path;
@@ -70,13 +113,7 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 		cmd_path = _get_cmd_path(c_ref, getenv("PATH"), cmd_ref->arglst);
 	else
 		cmd_path = safe_strdup(c_ref, cmd_ref->arglst.next->data);
-	if (cmd_path)
-	{
-		execve(cmd_path, cmd_ref->arglst, c_ref->envlst);
-		perror(safe_strjoin(c_ref, "minishell: ", cmd_path));
-	}
-	if (!cmd_path)
-		write(2, "minishell: command not found\n", 30);
+	cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
 	safe_free(c_ref, cmd_path);
 	return (1);
 }
