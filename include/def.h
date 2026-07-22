@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 15:21:14 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:26:28 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,10 @@ char		*safe_strdup(t_ctx *c_ref, const char *s);
 char		*safe_strndup(t_ctx *c_ref, const char *s, size_t n);
 char		*safe_strjoin(t_ctx *c_ref, const char *s1, const char *s2);
 char		*safe_itoa(t_ctx *c_ref, int n);
+
+/* safe_str2.c */
+char		**safe_split(t_ctx *c_ref, const char *s, char c);
+void		safe_split_free(t_ctx *c_ref, char **sp);
 
 /* safe_uni.c */
 void		safe_dup2(t_ctx *c_ref, int fd, int fd2);
