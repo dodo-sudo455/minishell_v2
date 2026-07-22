@@ -6,21 +6,11 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 14:11:36 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:28:56 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
-
-static void	_free_double_pointer(t_ctx *c_ref, char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		safe_free(c_ref, s[i++]);
-	safe_free(c_ref, s);
-}
 
 // ft_split safe 버전 만들면 라인 수 줄어들 듯..
 static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
@@ -32,9 +22,7 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 	size_t	i;
 
 	cmd = arglst.next->data;
-	paths = ft_split(env_path, ':');
-	if (!paths)
-		return (NULL);
+	paths = safe_split(c_ref, env_path, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -42,15 +30,11 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 		candidate = safe_strjoin(c_ref, path, cmd);
 		safe_free(c_ref, path);
 		if (access(candidate, X_OK) == 0)
-		{
-			_free_double_pointer(c_ref, paths);
-			return (candidate);
-		}
+			return (safe_split_free(c_ref, paths), candidate);
 		safe_free(c_ref, candidate);
 		i += 1;
 	}
-	_free_double_pointer(c_ref, paths);
-	return (NULL);
+	return (safe_split_free(c_ref, paths), NULL);
 }
 
 static char	**_arglst_to_argv(t_ctx *c_ref, t_lst *arglst)
@@ -88,7 +72,7 @@ static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, t_lst *arglst)
 		perror(errmsg);
 		safe_free(c_ref, temp);
 		safe_free(c_ref, errmsg);
-		_free_double_pointer(c_ref, argv);
+		safe_split_free(c_ref, argv);
 	}
 	if (!cmd_path)
 	{
