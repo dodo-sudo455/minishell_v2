@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 16:06:42 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/25 17:43:00 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum e_error
 	ERROR_SYN_NEAR_TOKEN,
 	ERROR_ABORT,
 	ERROR_INVALID_IDENTIFIER,
+	ERROR_ENV_GOT_ARG,
 };
 
 t_error		geterr(const t_ctx *c_ref);
@@ -87,6 +88,7 @@ void		ctx_clear_err(t_ctx *c_ref);
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);
 void		ctx_setenv(t_ctx *c_ref, const char *key, const char *val);
+void		ctx_unsetenv(t_ctx *c_ref, const char *key);
 void		ctx_setstatus(t_ctx *c_ref, int stat);
 void		ctx_expand(t_ctx *c_ref, char **s);
 
