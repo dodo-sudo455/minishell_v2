@@ -6,11 +6,13 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:46:25 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/23 22:46:52 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/25 12:28:09 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+#include <limits.h>
+#include <unistd.h>
 
 static char	*_cd_get_path(t_ctx *c_ref, const t_cmd *cmd_ref, size_t lst_size)
 {
@@ -37,8 +39,13 @@ static char	*_cd_get_path(t_ctx *c_ref, const t_cmd *cmd_ref, size_t lst_size)
 static int	_cd_update_pwd(t_ctx *c_ref, const char *path)
 {
 	char	cwd[PATH_MAX];
+	char	*old_pwd;
 	char	*errmsg;
 
+	old_pwd = ctx_getenv(c_ref, "PWD");
+	if (*old_pwd)
+		ctx_setenv(c_ref, "OLDPWD", old_pwd);
+	safe_free(c_ref, old_pwd);
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		errmsg = safe_strjoin(c_ref, "minishell: cd: getcwd: ", path);
