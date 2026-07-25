@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/19 14:00:37 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/25 15:11:56 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_error	_parse_redir(t_ctx *c_ref, t_cmd *cmd_ref, t_lst *nod_ref)
 	nod_ref = nod_ref->next;
 	tokref_arr[1] = nod_ref->data;
 	if (!token_is_word(tokref_arr[1]))
-		return (seterr(c_ref, ERROR_SYN, tokref_arr[1]->s));
+		return (seterr(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, tokref_arr[1]->s));
 	red_ref = redir_new(c_ref,
 			token_to_redirtype(tokref_arr[0]), tokref_arr[1]);
 	safe_lst_push(c_ref, &cmd_ref->redlst, red_ref);
@@ -41,7 +41,7 @@ static t_error	_parse_pipe(
 	t_ctx *c_ref, t_lst *cmdlst_ref, t_cmd **cmd_ref)
 {
 	if (ft_lst_is_empty(&(*cmd_ref)->arglst))
-		return (seterr(c_ref, ERROR_SYN, "|"));
+		return (seterr(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "|"));
 	safe_lst_push(c_ref, cmdlst_ref, *cmd_ref);
 	*cmd_ref = cmd_new(c_ref);
 	return (ERROR_OK);

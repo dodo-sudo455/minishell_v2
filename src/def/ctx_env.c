@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:37:55 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 15:13:46 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/25 13:06:52 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ char	*ctx_getenv(t_ctx *c_ref, const char *key)
 	return (safe_strdup(c_ref, ""));
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		 If `key` exists in `c_ref.envlst`, update with `val`.
+ *		Else, push a new entry.
+ */
 void	ctx_setenv(t_ctx *c_ref, const char *key, const char *val)
 {
 	t_lst	*nod_ref;

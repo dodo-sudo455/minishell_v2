@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 15:10:35 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/25 15:10:41 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_error	session_prompt(t_ctx *c_ref, t_session *s_ref)
 t_error	session_parse(t_ctx *c_ref, t_session *s_ref)
 {
 	if (!parse_is_quote_ok(s_ref->input))
-		return (seterr(c_ref, ERROR_QUOTE, NULL));
+		return (seterr(c_ref, ERROR_QUOTE, NULL, NULL));
 	parse_tokenize(c_ref, s_ref->input, &s_ref->toklst);
 	parse_expand(c_ref, &s_ref->toklst);
 	parse_split_word(c_ref, &s_ref->toklst);
