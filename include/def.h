@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 15:10:43 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/25 17:43:00 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,17 @@ enum e_error
 {
 	ERROR_OK,
 	ERROR_QUOTE,
-	ERROR_SYN,
+	ERROR_SYN_NEAR_TOKEN,
 	ERROR_ABORT,
+	ERROR_INVALID_IDENTIFIER,
+	ERROR_ENV_GOT_ARG,
 };
 
 t_error		geterr(const t_ctx *c_ref);
-t_error		seterr(t_ctx *c_ref, t_error err, const char *errparam);
+t_error		seterr(t_ctx *c_ref,
+				t_error err, const char *errcmd, const char *errarg);
 void		logerr(t_ctx *c_ref);
+void		unseterr(t_ctx *c_ref);
 
 /* ---------------------------------- */
 /* fatal                              */
@@ -70,7 +74,8 @@ struct s_ctx
 	char		**envp;
 	t_lst		envlst;
 	t_error		err;
-	char		*errparam;
+	char		*errcmd;
+	char		*errarg;
 	int			status;
 };
 
@@ -83,6 +88,7 @@ void		ctx_clear_err(t_ctx *c_ref);
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);
 void		ctx_setenv(t_ctx *c_ref, const char *key, const char *val);
+void		ctx_unsetenv(t_ctx *c_ref, const char *key);
 void		ctx_setstatus(t_ctx *c_ref, int stat);
 void		ctx_expand(t_ctx *c_ref, char **s);
 
@@ -100,6 +106,7 @@ t_env		*env_new(t_ctx *c_ref, const char *s);
 void		env_drop(t_ctx *c_ref, t_env *env_ref);
 void		envlst_init(t_ctx *c_ref, t_lst *envlst_ref, char **envp);
 void		envlst_clear(t_ctx *c_ref, t_lst *envlst_ref);
+t_lst		**envlst_sort(t_ctx *c_ref, const t_lst *envlst_ref);
 
 /* ---------------------------------- */
 /* gc                                 */
@@ -167,5 +174,12 @@ void		safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c);
 void		safe_vec_push_n(t_ctx *c_ref,
 				t_vec *vec_ref, const char *buf, size_t n);
 char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
+
+/* ---------------------------------- */
+/* util                               */
+/* ---------------------------------- */
+
+size_t		util_envlen(const char *s);
+ssize_t		util_puterr(const char *s);
 
 #endif // DEF_H

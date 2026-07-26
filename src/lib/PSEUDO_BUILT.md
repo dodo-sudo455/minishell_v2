@@ -72,17 +72,33 @@ int cmd_built_export(ctx, cmd):
 ## unset
 ```go
 int cmd_built_unset(ctx, cmd):
+	status := 0
+	for arg in cmd.arglst[1:]:
+		if is_invalid_identifier(arg):
+			print_error("minishell: unset: ${arg} is not a valid identifier.\n")
+			status = 1
+			continue
+		
+		ctx.unsetenv(arg)
 	
+	return status
 ```
 
 ## env
 ```go
 int cmd_built_env(ctx, cmd):
+	if cmd.arglst.size > 1:
+		return 1
 	
+	for env in ctx.envlst:
+		printf("%s=%s\n", env.key, env.val)
+
+	return 0
 ```
 
 ## exit
 ```go
 int cmd_built_exit(ctx, cmd):
-	
+
 ```
+

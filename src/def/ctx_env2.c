@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 15:12:57 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 15:34:03 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/25 13:40:40 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ static size_t	_expand(t_ctx *c_ref, t_vec *vec_ref, const char *s, size_t i)
 		safe_free(c_ref, val);
 		return (i + 1);
 	}
-	namelen = 0;
-	while (ft_isalnum((unsigned char)s[i + namelen]) || s[i + namelen] == '_')
-		namelen += 1;
+	namelen = util_envlen(s + i);
 	name = safe_strndup(c_ref, s + i, namelen);
 	val = ctx_getenv(c_ref, name);
 	safe_vec_push_n(c_ref, vec_ref, val, ft_strlen(val));
