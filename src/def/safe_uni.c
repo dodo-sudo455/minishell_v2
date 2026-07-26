@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:20:31 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 14:54:01 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 15:40:03 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	safe_dup2(t_ctx *c_ref, int fd, int fd2)
 
 void	safe_close(t_ctx *c_ref, int fd)
 {
+	if (fd < 0)
+		return ;
 	if (close(fd) < 0)
-		panic(c_ref, FATAL_INTERNAL, NULL);
+		panic(c_ref, FATAL_DEBUG, NULL);
 }
 
 /// @todo checkout again

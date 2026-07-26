@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 13:30:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 14:20:37 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 15:02:32 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,13 @@ size_t	util_envlen(const char *s)
 ssize_t	util_puterr(const char *s)
 {
 	return (write(STDERR_FILENO, s, ft_strlen(s)));
+}
+
+int	util_parse_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (status);
 }
