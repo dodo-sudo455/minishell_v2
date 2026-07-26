@@ -6,14 +6,13 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:03:10 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 14:29:42 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 #include <errno.h>
 
-// ft_split safe 버전 만들면 라인 수 줄어들 듯..
 static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	if (!cmd_ref || ft_lst_is_empty(&cmd_ref->arglst))
@@ -84,35 +83,26 @@ static char	**_arglst_to_argv(t_ctx *c_ref, const t_lst *arglst)
 static int	cmd_run_path(t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
 {
 	char	**argv;
-	char	*errmsg;
-	char	*temp;
 	int		status;
-	int		errno_saved;
 
 	status = 0;
 	if (cmd_path)
 	{
 		argv = _arglst_to_argv(c_ref, arglst);
 		execve(cmd_path, argv, c_ref->envp);
-		errno_saved = errno;
-		temp = safe_strjoin(c_ref, "minishell: ", cmd_path);
-		errmsg = safe_strjoin(c_ref, temp, ": ");
-		perror(errmsg);
-		safe_free(c_ref, temp);
-		safe_free(c_ref, errmsg);
+		util_puterr("minishell: ");
+		perror(cmd_path);
 		safe_split_free(c_ref, argv);
-		if (errno_saved == ENOENT)
+		if (errno == ENOENT)
 			status = 127;
 		else
 			status = 126;
 	}
-	if (!cmd_path)
+	else
 	{
-		temp = safe_strjoin(c_ref, "minishell: ", arglst->next->data);
-		errmsg = safe_strjoin(c_ref, temp, ": command not found\n");
-		write(2, errmsg, ft_strlen(errmsg));
-		safe_free(c_ref, temp);
-		safe_free(c_ref, errmsg);
+		util_puterr("minishell: ");
+		util_puterr(arglst->next->data);
+		util_puterr(": command not found\n");
 		status = 127;
 	}
 	return (status);

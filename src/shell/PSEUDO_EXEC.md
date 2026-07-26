@@ -39,7 +39,10 @@ exec_run(ctx, cmdlst):
 	if (WIFEXITED(&last_status))
 	
 	ctx_update_status(ctx, last_status)
+```
 
+## exec_run_cmd
+```go
 exec_run_cmd(ctx, cmd, infd, outfd):
 	if (is_built_in(cmd)):
 		tmp_stdin = dup(0)

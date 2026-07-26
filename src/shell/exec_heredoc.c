@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 16:20:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 15:04:25 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 14:36:43 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static void	_heredoc_readline(
 		input = safe_readline(c_ref, "> ");
 		if (!input)
 		{
-			write(2, "warning\n", 8);
+			util_puterr("minishell: warning: \
+here-document delimited by end-of-file (wanted `");
+			util_puterr(delim);
+			util_puterr("')\n");
 			exit(0);
 		}
 		if (ft_strcmp(input, delim) == 0)
