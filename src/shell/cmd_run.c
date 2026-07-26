@@ -3,16 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 12:49:15 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 13:03:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+#include <errno.h>
 
 // ft_split safe 버전 만들면 라인 수 줄어들 듯..
+static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
+{
+	if (!cmd_ref || ft_lst_is_empty(&cmd_ref->arglst))
+		return (0);
+	if (ft_strcmp(cmd_ref->arglst.next->data, "echo") == 0)
+		return (cmd_built_echo(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "cd") == 0)
+		return (cmd_built_cd(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "pwd") == 0)
+		return (cmd_built_pwd(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "export") == 0)
+		return (cmd_built_export(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "unset") == 0)
+		return (cmd_built_unset(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "env") == 0)
+		return (cmd_built_env(c_ref, cmd_ref));
+	if (ft_strcmp(cmd_ref->arglst.next->data, "exit") == 0)
+		return (cmd_built_exit(c_ref, cmd_ref));
+	return (0);
+}
+
 static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 {
 	char	*cmd;
@@ -59,22 +81,30 @@ static char	**_arglst_to_argv(t_ctx *c_ref, const t_lst *arglst)
 	return (argv);
 }
 
-static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
+static int	cmd_run_path(t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
 {
 	char	**argv;
 	char	*errmsg;
 	char	*temp;
+	int		status;
+	int		errno_saved;
 
+	status = 0;
 	if (cmd_path)
 	{
 		argv = _arglst_to_argv(c_ref, arglst);
 		execve(cmd_path, argv, c_ref->envp);
+		errno_saved = errno;
 		temp = safe_strjoin(c_ref, "minishell: ", cmd_path);
 		errmsg = safe_strjoin(c_ref, temp, ": ");
 		perror(errmsg);
 		safe_free(c_ref, temp);
 		safe_free(c_ref, errmsg);
 		safe_split_free(c_ref, argv);
+		if (errno_saved == ENOENT)
+			status = 127;
+		else
+			status = 126;
 	}
 	if (!cmd_path)
 	{
@@ -83,25 +113,25 @@ static void	cmd_run_path(t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
 		write(2, errmsg, ft_strlen(errmsg));
 		safe_free(c_ref, temp);
 		safe_free(c_ref, errmsg);
+		status = 127;
 	}
+	return (status);
 }
 
 int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*cmd_path;
+	int		ret;
 
 	if (ft_lst_is_empty(&cmd_ref->arglst))
 		return (0);
 	if (cmd_is_built_in(cmd_ref))
-	{
-		printf("%s\n", (char *)cmd_ref->arglst.next->data);
-		return (0);
-	}
+		return (_run_built_in(c_ref, cmd_ref));
 	if (ft_strchr(cmd_ref->arglst.next->data, '/') == NULL)
 		cmd_path = _get_cmd_path(c_ref, getenv("PATH"), cmd_ref->arglst);
 	else
 		cmd_path = safe_strdup(c_ref, cmd_ref->arglst.next->data);
-	cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
+	ret = cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
 	safe_free(c_ref, cmd_path);
-	return (1);
+	return (ret);
 }
