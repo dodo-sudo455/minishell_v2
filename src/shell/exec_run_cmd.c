@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:28:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:28:51 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ void	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
 */
 int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 {
-	int	tmp_stdin;
-	int	tmp_stdout;
-	int	is_builtin;
+	int	stdi;
+	int	stdo;
+	int	is_built;
 	int	ret;
 
 	ret = 0;
-	is_builtin = cmd_is_built_in(cmd_ref);
-	if (is_builtin)
+	is_built = cmd_is_built_in(cmd_ref);
+	if (is_built)
 	{
-		tmp_stdin = dup(STDIN_FILENO);
-		tmp_stdout = dup(STDOUT_FILENO);
+		stdi = dup(STDIN_FILENO);
+		stdo = dup(STDOUT_FILENO);
 	}
 	if (infd != -1)
 		safe_dup2(c_ref, infd, STDIN_FILENO);
@@ -95,12 +95,12 @@ int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 		safe_dup2(c_ref, outfd, STDOUT_FILENO);
 	_handle_redir(c_ref, cmd_ref);
 	ret = cmd_run(c_ref, cmd_ref);
-	if (is_builtin)
+	if (is_built)
 	{
-		safe_dup2(c_ref, tmp_stdin, STDIN_FILENO);
-		close(tmp_stdin);
-		safe_dup2(c_ref, tmp_stdout, STDOUT_FILENO);
-		close(tmp_stdout);
+		safe_dup2(c_ref, stdi, STDIN_FILENO);
+		close(stdi);
+		safe_dup2(c_ref, stdo, STDOUT_FILENO);
+		close(stdo);
 	}
 	return (ret);
 }

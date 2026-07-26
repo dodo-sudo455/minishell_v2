@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 15:01:55 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:33:22 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ void		safe_close(t_ctx *c_ref, int fd);
 int			safe_open(t_ctx *c_ref, const char *file, int oflag, int opt);
 pid_t		safe_fork(t_ctx *c_ref, pid_t *pid_ref);
 void		safe_pipe(t_ctx *c_ref, int fd[2]);
+
+/* safe_uni2.c */
+int			safe_dup(t_ctx *c_ref, int fd);
 
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);

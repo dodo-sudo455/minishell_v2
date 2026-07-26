@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 16:25:45 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:44:21 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	_wait_all(t_ctx *c_ref, const t_lst *cmdlst_ref)
 	int		status;
 	t_lst	*nod_ref;
 
+	(void)c_ref;
 	status = 0;
 	nod_ref = cmdlst_ref->next;
 	while (nod_ref && nod_ref != cmdlst_ref)
