@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 16:04:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:25:45 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,36 @@ static void	_set_sig_child(t_ctx *c_ref)
 /**
  *	DESCRIPTION
  *
+ *		It runs `waitpid` on each pid.
+ *
+ *	RETURN
+ *
+ *		It returns status code by last process.
+ */
+static int	_wait_all(t_ctx *c_ref, const t_lst *cmdlst_ref)
+{
+	int		status;
+	t_lst	*nod_ref;
+
+	status = 0;
+	nod_ref = cmdlst_ref->next;
+	while (nod_ref && nod_ref != cmdlst_ref)
+	{
+		if (((t_cmd *)(nod_ref->data))->pid >= 0)
+			waitpid(((t_cmd *)(nod_ref->data))->pid, &status, 0);
+		nod_ref = nod_ref->next;
+	}
+	return (util_parse_status(status));
+}
+
+/**
+ *	DESCRIPTION
+ *
  *		- It connects cmds with pipe.
  *		- It runs cmds
  *		- It should not leave any unused fds open.
  */
-static void	_exec_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
+static void	_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
 	int		prevfd;
 	int		pipefd[2];
@@ -77,8 +102,8 @@ static void	_exec_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
 		}
 		safe_close(c_ref, prevfd);
-		prevfd = pipefd[0];
 		safe_close(c_ref, pipefd[1]);
+		prevfd = pipefd[0];
 		nod_ref = nod_ref->next;
 	}
 	safe_close(c_ref, prevfd);
@@ -87,9 +112,9 @@ static void	_exec_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 /**
  *	DESCRIPTION
  *
- *		- If there is no cmd, set status 0.
- *		- If there is single built-in, do not do fork.
- *		- Else, set signal handlers and run cmds.
+ *		- If there is no cmd: set status 0.
+ *		- If there is single built-in: run cmd without fork.
+ *		- Else: set signal handlers and run cmds.
  */
 void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
@@ -106,7 +131,7 @@ void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 	else
 	{
 		_set_sig_parent(c_ref);
-		_exec_run_all(c_ref, cmdlst_ref);
-		ctx_setstatus(c_ref, exec_run_waitall(c_ref, cmdlst_ref));
+		_run_all(c_ref, cmdlst_ref);
+		ctx_setstatus(c_ref, _wait_all(c_ref, cmdlst_ref));
 	}
 }
