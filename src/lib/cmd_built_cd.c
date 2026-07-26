@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:46:25 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 11:39:51 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 12:37:58 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static char	*_cd_get_path(t_ctx *c_ref, const t_cmd *cmd_ref, size_t lst_size)
 		if (!path || !*path)
 		{
 			write(2, "minishell: cd: HOME not set\n", 28);
+			if (path)
+				safe_free(c_ref, path);
 			return (NULL);
 		}
 		return (path);
@@ -33,7 +35,7 @@ static char	*_cd_get_path(t_ctx *c_ref, const t_cmd *cmd_ref, size_t lst_size)
 		write(2, "minishell: cd: too many arguments\n", 34);
 		return (NULL);
 	}
-	return (cmd_ref->arglst.next->data);
+	return (safe_strdup(c_ref, cmd_ref->arglst.next->data));
 }
 
 static int	_cd_update_pwd(t_ctx *c_ref, const char *path)
@@ -70,6 +72,7 @@ int	cmd_built_cd(t_ctx *c_ref, const t_cmd *cmd_ref)
 	char	*errmsg;
 	char	*path;
 	size_t	lst_size;
+	int		status;
 
 	lst_size = ft_lst_size(&cmd_ref->arglst);
 	path = _cd_get_path(c_ref, cmd_ref, lst_size);
@@ -80,7 +83,10 @@ int	cmd_built_cd(t_ctx *c_ref, const t_cmd *cmd_ref)
 		errmsg = safe_strjoin(c_ref, "minishell: cd: ", path);
 		perror(errmsg);
 		safe_free(c_ref, errmsg);
+		safe_free(c_ref, path);
 		return (1);
 	}
-	return (_cd_update_pwd(c_ref, path));
+	status = _cd_update_pwd(c_ref, path);
+	safe_free(c_ref, path);
+	return (status);
 }

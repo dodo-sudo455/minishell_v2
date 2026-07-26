@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:53:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/25 13:26:03 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 12:39:49 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	cmd_built_pwd(t_ctx *c_ref, const t_cmd *cmd_ref)
 	if (*pwd)
 	{
 		printf("%s\n", pwd);
+		safe_free(c_ref, pwd);
 		return (0);
 	}
+	safe_free(c_ref, pwd);
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		perror("minishell: pwd");
