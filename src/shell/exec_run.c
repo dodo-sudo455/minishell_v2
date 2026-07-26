@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 14:47:38 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 12:48:30 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,24 @@ static int	_to_exit_status(int status)
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (status);
+}
+
+static int	_wait_all_children(t_lst *cmdlst_ref)
+{
+	t_lst	*nod_ref;
+	t_cmd	*cmd_ref;
+	int		status;
+
+	nod_ref = cmdlst_ref->next;
+	status = 0;
+	while (nod_ref && nod_ref != cmdlst_ref)
+	{
+		cmd_ref = nod_ref->data;
+		if (cmd_ref->pid >= 0)
+			waitpid(cmd_ref->pid, &status, 0);
+		nod_ref = nod_ref->next;
+	}
+	return (_to_exit_status(status));
 }
 
 /**
@@ -86,12 +104,5 @@ void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 	}
 	_set_sig_parent(c_ref);
 	_exec_run(c_ref, cmdlst_ref);
-	while (nod_ref && nod_ref != cmdlst_ref)
-	{
-		cmd_ref = nod_ref->data;
-		if (cmd_ref->pid >= 0)
-			waitpid(cmd_ref->pid, &status, 0);
-		nod_ref = nod_ref->next;
-	}
-	ctx_setstatus(c_ref, _to_exit_status(status));
+	ctx_setstatus(c_ref, _wait_all_children(cmdlst_ref));
 }

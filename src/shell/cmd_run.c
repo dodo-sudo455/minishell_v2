@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 14:47:38 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 12:49:15 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static char	*_get_cmd_path(t_ctx *c_ref, const char *env_path, t_lst arglst)
 
 static char	**_arglst_to_argv(t_ctx *c_ref, const t_lst *arglst)
 {
-	size_t	n;
-	char	**argv;
+	size_t		n;
+	char		**argv;
 	const t_lst	*p;
-	size_t	i;
+	size_t		i;
 
 	n = ft_lst_size(arglst);
 	argv = safe_malloc(c_ref, sizeof(char *) * (n + 1));
