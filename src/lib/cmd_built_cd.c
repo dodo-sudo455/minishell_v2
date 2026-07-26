@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:46:25 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/25 13:49:35 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 11:39:51 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	_cd_update_pwd(t_ctx *c_ref, const char *path)
 /*
 	DESCRIPTION
 		- 인자로 들어온 path로 이동
+
 	NOTE
 		- OLDPWD에 이동 전 디렉토리 절대경로 저장
 		- 디렉토리 이동 후 절대경로 PWD에 저장
