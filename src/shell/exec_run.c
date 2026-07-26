@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 15:48:06 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:04:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
+/**
+ *	DESCRIPTION
+ *
+ *		Parent process should ignore on signals.
+ *		- SIGINT: SIG_IGN
+ *		- SIGQUIT: SIG_IGN
+ */
 static void	_set_sig_parent(t_ctx *c_ref)
 {
 	struct sigaction	sa;
@@ -25,6 +32,13 @@ static void	_set_sig_parent(t_ctx *c_ref)
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		Child processes should quit on signals.
+ *		- SIGINT: SIG_DFL
+ *		- SIGQUIT: SIG_DFL
+ */
 static void	_set_sig_child(t_ctx *c_ref)
 {
 	struct sigaction	sa;
@@ -39,7 +53,9 @@ static void	_set_sig_child(t_ctx *c_ref)
 /**
  *	DESCRIPTION
  *
- *		 Connect commands with pipe and run them.
+ *		- It connects cmds with pipe.
+ *		- It runs cmds
+ *		- It should not leave any unused fds open.
  */
 static void	_exec_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
@@ -68,6 +84,13 @@ static void	_exec_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 	safe_close(c_ref, prevfd);
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		- If there is no cmd, set status 0.
+ *		- If there is single built-in, do not do fork.
+ *		- Else, set signal handlers and run cmds.
+ */
 void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
 	if (ft_lst_is_empty(cmdlst_ref))
