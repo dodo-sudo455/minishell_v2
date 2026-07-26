@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 14:27:32 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 15:27:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:28:28 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		session_run(&ctx, &ss);
-		printf("Your input is: %s\n", ss.input);
 		session_clear(&ctx, &ss);
 	}
 	ctx_clear(&ctx);

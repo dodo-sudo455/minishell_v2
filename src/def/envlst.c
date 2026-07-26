@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 16:02:59 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 16:06:01 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:20:22 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	_copy_envlst_nodes(const t_lst *envlst_ref, t_lst **nodes)
 {
 	t_lst	*nod_ref;
 	int		i;
-	int		j;
 
 	i = 0;
 	nod_ref = envlst_ref->next;

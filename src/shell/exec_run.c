@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 12:48:30 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 13:18:46 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include <sys/wait.h>
 #include <stdlib.h>
+
+static void	_set_sig_child(t_ctx *c_ref)
+{
+	struct sigaction	sa;
+
+	sa.sa_flags = 0;
+	safe_sigemptyset(c_ref, &sa.sa_mask);
+	sa.sa_handler = SIG_DFL;
+	safe_sigaction(c_ref, SIGINT, &sa, NULL);
+	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
+}
 
 static void	_set_sig_parent(t_ctx *c_ref)
 {
@@ -72,7 +83,10 @@ static void	_exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 		if (nod_ref->next != cmdlst_ref)
 			safe_pipe(c_ref, pipefd);
 		if (safe_fork(c_ref, &((t_cmd *)nod_ref->data)->pid) == 0)
+		{
+			_set_sig_child(c_ref);
 			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
+		}
 		if (prevfd >= 0)
 			safe_close(c_ref, prevfd);
 		prevfd = pipefd[0];
@@ -87,8 +101,6 @@ static void	_exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
 	t_lst	*nod_ref;
-	t_cmd	*cmd_ref;
-	int		status;
 
 	if (ft_lst_is_empty(cmdlst_ref))
 	{

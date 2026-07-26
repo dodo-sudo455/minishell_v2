@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_built_cd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:46:25 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 12:37:58 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 13:28:28 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*_cd_get_path(t_ctx *c_ref, const t_cmd *cmd_ref, size_t lst_size)
 		write(2, "minishell: cd: too many arguments\n", 34);
 		return (NULL);
 	}
-	return (safe_strdup(c_ref, cmd_ref->arglst.next->data));
+	return (safe_strdup(c_ref, cmd_ref->arglst.next->next->data));
 }
 
 static int	_cd_update_pwd(t_ctx *c_ref, const char *path)

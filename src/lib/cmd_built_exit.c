@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_built_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:39:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 11:42:05 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	_exit_is_numeric(const char *s)
 
 static void	_exit_numeric_error(t_ctx *c_ref, const char *arg)
 {
-	printf("exit\n");
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	write(2, "minishell: exit: ", 17);
 	write(2, arg, ft_strlen(arg));
 	write(2, ": numeric argument required\n", 28);
@@ -58,20 +58,20 @@ int	cmd_built_exit(t_ctx *c_ref, const t_cmd *cmd_ref)
 	if (ft_lst_size(&cmd_ref->arglst) == 1)
 	{
 		ctx_clear(c_ref);
-		printf("exit\n");
+		ft_putendl_fd("exit", STDOUT_FILENO);
 		exit(0);
 	}
-	arg_node = cmd_ref->arglst.next;
+	arg_node = cmd_ref->arglst.next->next;
 	arg = arg_node->data;
 	if (!_exit_is_numeric(arg))
 		_exit_numeric_error(c_ref, arg);
 	if (arg_node->next != &cmd_ref->arglst)
 	{
-		printf("exit\n");
+		ft_putendl_fd("exit", STDOUT_FILENO);
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
 	ctx_clear(c_ref);
-	printf("exit\n");
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	exit(ft_atoi(arg));
 }

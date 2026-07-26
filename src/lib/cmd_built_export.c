@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:55:04 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 16:10:47 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	_run_declare_x(t_ctx *c_ref, const t_lst *envlst_ref)
 	{
 		env_ref = envlst_sorted[i]->data;
 		if (env_ref->val)
-			printf("declare -x %s=\"%s\"\n", env_ref->key, env_ref->val);
+			ft_printf("declare -x %s=\"%s\"\n", env_ref->key, env_ref->val);
 		else
-			printf("declare -x %s\n", env_ref->key);
+			ft_printf("declare -x %s\n", env_ref->key);
 		i += 1;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 16:44:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 17:10:50 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	cmd_built_env(t_ctx *c_ref, const t_cmd *cmd_ref)
 	while (nod_ref && nod_ref != &c_ref->envlst)
 	{
 		env_ref = nod_ref->data;
-		printf("%s=%s\n", env_ref->key, env_ref->val);
+		ft_putstr_fd(env_ref->key, STDOUT_FILENO);
+		ft_putchar_fd('=', STDOUT_FILENO);
+		ft_putendl_fd(env_ref->val, STDOUT_FILENO);
 		nod_ref = nod_ref->next;
 	}
 	return (0);

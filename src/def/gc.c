@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 15:35:32 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:39:29 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:28:28 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	gc_free(t_gc *gc_ref, void *p)
 {
 	t_lst	*nod_ref;
 
+	if (!p || !gc_ref->next)
+		return ;
 	nod_ref = gc_ref->next;
-	while (nod_ref)
+	while (nod_ref && nod_ref != gc_ref)
 	{
 		if (nod_ref->data == p)
 		{

@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:28:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 15:04:25 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-
-static void	_set_signal_child(t_ctx *c_ref)
-{
-	struct sigaction	sa;
-
-	sa.sa_flags = 0;
-	safe_sigemptyset(c_ref, &sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
-	safe_sigaction(c_ref, SIGINT, &sa, NULL);
-}
 
 int	_handle_redir_flag(
 	t_ctx *c_ref, t_redir *red_ref, const char *s, int *file_fd)
@@ -89,22 +79,23 @@ int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 {
 	int	tmp_stdin;
 	int	tmp_stdout;
+	int	is_builtin;
 	int	ret;
 
 	ret = 0;
-	if (cmd_is_built_in(cmd_ref))
+	is_builtin = cmd_is_built_in(cmd_ref);
+	if (is_builtin)
 	{
 		tmp_stdin = dup(STDIN_FILENO);
 		tmp_stdout = dup(STDOUT_FILENO);
 	}
-	_set_signal_child(c_ref);
 	if (infd != -1)
 		safe_dup2(c_ref, infd, STDIN_FILENO);
 	if (outfd != -1)
 		safe_dup2(c_ref, outfd, STDOUT_FILENO);
 	_handle_redir(c_ref, cmd_ref);
 	ret = cmd_run(c_ref, cmd_ref);
-	if (cmd_is_built_in(cmd_ref))
+	if (is_builtin)
 	{
 		safe_dup2(c_ref, tmp_stdin, STDIN_FILENO);
 		close(tmp_stdin);
