@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   safe_uni2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/19 15:00:59 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/27 13:36:13 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/27 13:23:26 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/27 13:30:47 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "def.h"
 
-int	main(int argc, char **argv, char **envp)
+int	safe_dup(t_ctx *c_ref, int fd)
 {
-	t_ctx		ctx;
-	t_session	ss;
+	int	new_fd;
 
-	(void)argc;
-	(void)argv;
-	ctx_init(&ctx, envp);
-	ss = session_make();
-	session_prompt(&ctx, &ss);
-	session_parse(&ctx, &ss);
-	exec_hdoc(&ctx, &ss.cmdlst);
-	session_clear(&ctx, &ss);
-	ctx_clear(&ctx);
-	return (0);
+	new_fd = dup(fd);
+	if (new_fd < 0)
+		panic(c_ref, FATAL_INTERNAL, "dup failed");
+	return (new_fd);
+}
+
+void	safe_write(t_ctx *c_ref, int fd, const char *s)
+{
+	if (write(fd, s, ft_strlen(s)) < 0)
+		panic(c_ref, FATAL_INTERNAL, "write failed");
 }

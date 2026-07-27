@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 16:33:22 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 13:30:53 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,8 @@ void		safe_pipe(t_ctx *c_ref, int fd[2]);
 
 /* safe_uni2.c */
 int			safe_dup(t_ctx *c_ref, int fd);
+void		safe_write(t_ctx *c_ref, int fd, const char *s);
+
 
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);

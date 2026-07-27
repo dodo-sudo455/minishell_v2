@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 15:10:41 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 13:36:13 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_error	session_exec(t_ctx *c_ref, t_session *s_ref)
 {
 	t_error	err;
 
-	err = exec_heredoc(c_ref, &s_ref->cmdlst);
+	err = exec_hdoc(c_ref, &s_ref->cmdlst);
 	if (err != ERROR_OK)
 		return (err);
 	exec_run(c_ref, &s_ref->cmdlst);
