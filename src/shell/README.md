@@ -29,6 +29,6 @@ cat << "$USER"
 전부 종료 구분자는 `$USER`
 대신, 따옴표로 감싸지지 않은 경우 heredoc 본문에서 환경 변수 확장 나타남
 
-## `exec_heredoc.c`
+## `exec_hdoc.c`
 
 1. 

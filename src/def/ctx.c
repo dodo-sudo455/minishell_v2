@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 15:18:19 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 17:06:15 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ctx_init(t_ctx *c_ref, char **envp)
 void	ctx_clear(t_ctx *c_ref)
 {
 	envlst_clear(c_ref, &c_ref->envlst);
-	if (c_ref->errparam)
-		safe_free(c_ref, c_ref->errparam);
+	unseterr(c_ref);
+	gc_clear(&c_ref->gc);
 	ft_memset(c_ref, 0, sizeof(t_ctx));
 }

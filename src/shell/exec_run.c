@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 13:18:46 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/26 16:44:21 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-static void	_set_sig_child(t_ctx *c_ref)
-{
-	struct sigaction	sa;
-
-	sa.sa_flags = 0;
-	safe_sigemptyset(c_ref, &sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
-	safe_sigaction(c_ref, SIGINT, &sa, NULL);
-	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
-}
-
+/**
+ *	DESCRIPTION
+ *
+ *		Parent process should ignore on signals.
+ *		- SIGINT: SIG_IGN
+ *		- SIGQUIT: SIG_IGN
+ */
 static void	_set_sig_parent(t_ctx *c_ref)
 {
 	struct sigaction	sa;
@@ -36,39 +32,58 @@ static void	_set_sig_parent(t_ctx *c_ref)
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
-static int	_to_exit_status(int status)
+/**
+ *	DESCRIPTION
+ *
+ *		Child processes should quit on signals.
+ *		- SIGINT: SIG_DFL
+ *		- SIGQUIT: SIG_DFL
+ */
+static void	_set_sig_child(t_ctx *c_ref)
 {
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (status);
-}
+	struct sigaction	sa;
 
-static int	_wait_all_children(t_lst *cmdlst_ref)
-{
-	t_lst	*nod_ref;
-	t_cmd	*cmd_ref;
-	int		status;
-
-	nod_ref = cmdlst_ref->next;
-	status = 0;
-	while (nod_ref && nod_ref != cmdlst_ref)
-	{
-		cmd_ref = nod_ref->data;
-		if (cmd_ref->pid >= 0)
-			waitpid(cmd_ref->pid, &status, 0);
-		nod_ref = nod_ref->next;
-	}
-	return (_to_exit_status(status));
+	sa.sa_flags = 0;
+	safe_sigemptyset(c_ref, &sa.sa_mask);
+	sa.sa_handler = SIG_DFL;
+	safe_sigaction(c_ref, SIGINT, &sa, NULL);
+	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
 /**
  *	DESCRIPTION
  *
- *		- 
+ *		It runs `waitpid` on each pid.
+ *
+ *	RETURN
+ *
+ *		It returns status code by last process.
  */
-static void	_exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
+static int	_wait_all(t_ctx *c_ref, const t_lst *cmdlst_ref)
+{
+	int		status;
+	t_lst	*nod_ref;
+
+	(void)c_ref;
+	status = 0;
+	nod_ref = cmdlst_ref->next;
+	while (nod_ref && nod_ref != cmdlst_ref)
+	{
+		if (((t_cmd *)(nod_ref->data))->pid >= 0)
+			waitpid(((t_cmd *)(nod_ref->data))->pid, &status, 0);
+		nod_ref = nod_ref->next;
+	}
+	return (util_parse_status(status));
+}
+
+/**
+ *	DESCRIPTION
+ *
+ *		- It connects cmds with pipe.
+ *		- It runs cmds
+ *		- It should not leave any unused fds open.
+ */
+static void	_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
 	int		prevfd;
 	int		pipefd[2];
@@ -87,34 +102,37 @@ static void	_exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 			_set_sig_child(c_ref);
 			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
 		}
-		if (prevfd >= 0)
-			safe_close(c_ref, prevfd);
+		safe_close(c_ref, prevfd);
+		safe_close(c_ref, pipefd[1]);
 		prevfd = pipefd[0];
-		if (pipefd[1] >= 0)
-			safe_close(c_ref, pipefd[1]);
 		nod_ref = nod_ref->next;
 	}
-	if (prevfd >= 0)
-		safe_close(c_ref, prevfd);
+	safe_close(c_ref, prevfd);
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		- If there is no cmd: set status 0.
+ *		- If there is single built-in: run cmd without fork.
+ *		- Else: set signal handlers and run cmds.
+ */
 void	exec_run(t_ctx *c_ref, t_lst *cmdlst_ref)
 {
-	t_lst	*nod_ref;
-
 	if (ft_lst_is_empty(cmdlst_ref))
 	{
 		ctx_setstatus(c_ref, 0);
-		return ;
 	}
-	nod_ref = cmdlst_ref->next;
-	if (ft_lst_size(cmdlst_ref) == 1 && cmd_is_built_in(nod_ref->data))
+	else if (ft_lst_size(cmdlst_ref) == 1
+		&& cmd_is_built_in(cmdlst_ref->next->data))
 	{
 		ctx_setstatus(c_ref,
 			exec_run_cmd(c_ref, cmdlst_ref->next->data, -1, -1));
-		return ;
 	}
-	_set_sig_parent(c_ref);
-	_exec_run(c_ref, cmdlst_ref);
-	ctx_setstatus(c_ref, _wait_all_children(cmdlst_ref));
+	else
+	{
+		_set_sig_parent(c_ref);
+		_run_all(c_ref, cmdlst_ref);
+		ctx_setstatus(c_ref, _wait_all(c_ref, cmdlst_ref));
+	}
 }

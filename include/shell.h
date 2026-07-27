@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:26:38 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 13:15:33 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 13:36:13 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_error		parse_command(t_ctx *c_ref,
 /* ---------------------------------- */
 
 t_error		exec(t_ctx *c_ref, const t_lst *toklst_ref, t_lst *cmdlst_ref);
-t_error		exec_heredoc(t_ctx *c_ref, t_lst *cmdlst_ref);
+t_error		exec_hdoc(t_ctx *c_ref, t_lst *cmdlst_ref);
 void		exec_run(t_ctx *c_ref, t_lst *cmdlst_ref);
 int			exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd);
 

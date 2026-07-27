@@ -82,14 +82,14 @@ Process
 ### 3.0. Requirements
 
 Process
-- exec_heredoc
+- exec_hdoc
 - exec_run
 
-exec_heredoc 요구사항
+exec_hdoc 요구사항
 - 포크 후 readline
 - 임시파일은 fd 남기고 unlink.
 
-exec_heredoc 시그널
+exec_hdoc 시그널
 ```
 부모 시그널:
 	SIGINT: SIG_IGN

@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 17:43:00 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:12:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,10 @@ int			safe_open(t_ctx *c_ref, const char *file, int oflag, int opt);
 pid_t		safe_fork(t_ctx *c_ref, pid_t *pid_ref);
 void		safe_pipe(t_ctx *c_ref, int fd[2]);
 
+/* safe_uni2.c */
+int			safe_dup(t_ctx *c_ref, int fd);
+void		safe_write(t_ctx *c_ref, int fd, const char *s);
+
 /* safe_vec.c */
 void		safe_vec_clear(t_ctx *c_ref, t_vec *vec_ref);
 void		safe_vec_push(t_ctx *c_ref, t_vec *vec_ref, char c);
@@ -181,5 +185,6 @@ char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
 
 size_t		util_envlen(const char *s);
 ssize_t		util_puterr(const char *s);
+int			util_parse_status(int status);
 
 #endif // DEF_H
