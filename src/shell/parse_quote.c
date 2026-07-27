@@ -6,29 +6,26 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 17:11:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:39:29 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:23:48 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	_count(const char *s, char c)
-{
-	int	n;
-
-	n = 0;
-	while (*s)
-	{
-		if (*s == c)
-			n += 1;
-		s += 1;
-	}
-	return (n);
-}
-
 bool	parse_is_quote_ok(const char *input)
 {
-	return (_count(input, '\'') % 2 == 0 && _count(input, '\"') % 2 == 0);
+	char	ch;
+
+	ch = 0;
+	while (*input)
+	{
+		if (!ch && (*input == '\'' || *input == '\"'))
+			ch = *input;
+		else if (ch && *input == ch)
+			ch = 0;
+		input += 1;
+	}
+	return (ch == 0);
 }
 
 static void	_remove_quote(t_ctx *c_ref, char **s)
