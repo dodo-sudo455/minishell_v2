@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:28:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 16:28:51 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 15:28:22 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,91 +16,110 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-int	_handle_redir_flag(
-	t_ctx *c_ref, t_redir *red_ref, const char *s, int *file_fd)
+static void	_get_redir_fd(
+	t_ctx *c_ref, t_redir *red_ref, int *fd, int *fd2)
 {
 	if (red_ref->t == REDIR_HDOC)
 	{
-		*file_fd = STDIN_FILENO;
-		return (red_ref->docfd);
+		*fd = red_ref->docfd;
+		*fd2 = STDIN_FILENO;
 	}
-	if (red_ref->t == REDIR_IN)
+	else if (red_ref->t == REDIR_IN)
 	{
-		*file_fd = STDIN_FILENO;
-		return (open(s, O_RDONLY));
+		*fd = open(red_ref->s, O_RDONLY);
+		*fd2 = STDIN_FILENO;
 	}
 	else if (red_ref->t == REDIR_OUT)
 	{
-		*file_fd = STDOUT_FILENO;
-		return (open(s, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+		*fd = open(red_ref->s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		*fd2 = STDOUT_FILENO;
 	}
 	else if (red_ref->t == REDIR_APPEND)
 	{
-		*file_fd = STDOUT_FILENO;
-		return (open(s, O_WRONLY | O_CREAT | O_APPEND, 0644));
+		*fd = open(red_ref->s, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		*fd2 = STDOUT_FILENO;
 	}
 	else
-		panic(c_ref, FATAL_DEBUG, "unexpected redirtype");
-	return (-1);
+	{
+		panic(c_ref, FATAL_DEBUG, "unknown redir type");
+	}
 }
 
-void	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
+static void	_print_open_err(t_ctx *c_ref, t_redir *red_ref)
+{
+	char	*msg;
+
+	msg = safe_strjoin(c_ref, "minishell: ", red_ref->s);
+	perror(msg);
+	safe_free(c_ref, msg);
+}
+
+static int	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
 {
 	int		fd;
-	int		file_fd;
-	t_lst	*red_node;
+	int		fd2;
+	t_lst	*nod_ref;
 	t_redir	*red_ref;
-	char	*errmsg;
 
-	red_node = cmd_ref->redlst.next;
-	while (red_node && red_node != &cmd_ref->redlst)
+	nod_ref = cmd_ref->redlst.next;
+	while (nod_ref && nod_ref != &cmd_ref->redlst)
 	{
-		red_ref = red_node->data;
-		fd = _handle_redir_flag(c_ref, red_ref, red_ref->s, &file_fd);
+		red_ref = nod_ref->data;
+		_get_redir_fd(c_ref, red_ref, &fd, &fd2);
 		if (fd < 0)
 		{
-			errmsg = safe_strjoin(c_ref, "minishell: ", red_ref->s);
-			perror(errmsg);
-			safe_free(c_ref, errmsg);
-			exit(EXIT_FAILURE);
+			_print_open_err(c_ref, red_ref);
+			return (EXIT_FAILURE);
 		}
-		safe_dup2(c_ref, fd, file_fd);
+		safe_dup2(c_ref, fd, fd2);
 		close(fd);
-		red_node = red_node->next;
+		nod_ref = nod_ref->next;
 	}
+	return (ERROR_OK);
 }
 
-/*
-	- signal 설정
-	- 파일 디스크립터 리디렉션
-	- cmd 실행
-*/
-int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
+static int	_exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 {
-	int	stdi;
-	int	stdo;
-	int	is_built;
-	int	ret;
+	int	status;
 
-	ret = 0;
-	is_built = cmd_is_built_in(cmd_ref);
-	if (is_built)
-	{
-		stdi = dup(STDIN_FILENO);
-		stdo = dup(STDOUT_FILENO);
-	}
 	if (infd != -1)
 		safe_dup2(c_ref, infd, STDIN_FILENO);
 	if (outfd != -1)
 		safe_dup2(c_ref, outfd, STDOUT_FILENO);
-	_handle_redir(c_ref, cmd_ref);
-	ret = cmd_run(c_ref, cmd_ref);
+	status = _handle_redir(c_ref, cmd_ref);
+	if (status != ERROR_OK)
+		return (status);
+	return (cmd_run(c_ref, cmd_ref));
+}
+
+/**
+ *	DESCRIPTION
+ *
+ *		 It doesn't handle signal actions because handling depends
+ *		on whether the current process is a child process.
+ *
+ *		 Built-in funcs should duplicate std fds because they
+ *		run on parent process.
+ */
+int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
+{
+	int	std[2];
+	int	is_built;
+	int	ret;
+
+	is_built = cmd_is_built_in(cmd_ref);
 	if (is_built)
 	{
-		safe_dup2(c_ref, stdi, STDIN_FILENO);
-		close(stdi);
-		safe_dup2(c_ref, stdo, STDOUT_FILENO);
-		close(stdo);
+		std[0] = safe_dup(c_ref, STDIN_FILENO);
+		std[1] = safe_dup(c_ref, STDOUT_FILENO);
+	}
+	ret = _exec_run_cmd(c_ref, cmd_ref, infd, outfd);
+	if (is_built)
+	{
+		safe_dup2(c_ref, std[0], STDIN_FILENO);
+		close(std[0]);
+		safe_dup2(c_ref, std[1], STDOUT_FILENO);
+		close(std[1]);
 	}
 	return (ret);
 }
