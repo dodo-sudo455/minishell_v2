@@ -106,7 +106,7 @@ t_error	exec_hdoc(t_ctx *c_ref, t_lst *cmdlst_ref)
 			{
 				status = _handle_hdoc(c_ref, red_ref);
 				if (status == 130)
-					return (ERROR_ABORT);
+					return (seterr(c_ref, ERROR_ABORT, NULL, red_ref->s));
 			}
 			red_nod = red_nod->next;
 		}
