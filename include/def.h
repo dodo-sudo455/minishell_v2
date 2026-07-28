@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 18:12:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 20:00:08 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,21 @@ enum e_error
 	ERROR_ABORT,
 	ERROR_INVALID_IDENTIFIER,
 	ERROR_ENV_GOT_ARG,
+	ERROR_OPEN,
 };
 
+/* error.c */
 t_error		geterr(const t_ctx *c_ref);
 t_error		seterr(t_ctx *c_ref,
 				t_error err, const char *errcmd, const char *errarg);
-void		logerr(t_ctx *c_ref);
 void		unseterr(t_ctx *c_ref);
+
+/* error_log.c */
+void		logerr(t_error err, const char *errcmd, const char *errarg);
+
+/* error_log2.c */
+void		logerr_env_got_arg(const char *errcmd, const char *errarg);
+void		logerr_open(const char *errcmd, const char *errarg);
 
 /* ---------------------------------- */
 /* fatal                              */
@@ -74,8 +82,6 @@ struct s_ctx
 	char		**envp;
 	t_lst		envlst;
 	t_error		err;
-	char		*errcmd;
-	char		*errarg;
 	int			status;
 };
 

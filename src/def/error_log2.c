@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_log2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/17 15:02:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 18:50:09 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/27 19:52:04 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/27 20:04:39 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
 
-t_error	geterr(const t_ctx *c_ref)
+// minishell: errcmd: `errarg': unexpected argument
+void	logerr_env_got_arg(const char *errcmd, const char *errarg)
 {
-	return (c_ref->err);
+	util_puterr("minishell: ");
+	util_puterr(errcmd);
+	util_puterr(": `");
+	util_puterr(errarg);
+	util_puterr("': unexpected argument\n");
 }
 
-t_error	seterr(
-	t_ctx *c_ref, t_error err, const char *errcmd, const char *errarg)
+// minishell: errarg: perror
+void	logerr_open(const char *errcmd, const char *errarg)
 {
-	c_ref->err = err;
-	logerr(err, errcmd, errarg);
-	return (err);
-}
-
-void	unseterr(t_ctx *c_ref)
-{
-	c_ref->err = ERROR_OK;
+	(void)errcmd;
+	util_puterr("minishell: ");
+	perror(errarg);
 }

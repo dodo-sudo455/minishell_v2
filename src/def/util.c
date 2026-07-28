@@ -6,11 +6,13 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 13:30:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 15:02:32 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:37:20 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 size_t	util_envlen(const char *s)
 {

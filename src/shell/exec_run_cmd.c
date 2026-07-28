@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:28:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/27 15:28:22 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 20:05:01 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,6 @@ static void	_get_redir_fd(
 	}
 }
 
-static void	_print_open_err(t_ctx *c_ref, t_redir *red_ref)
-{
-	char	*msg;
-
-	msg = safe_strjoin(c_ref, "minishell: ", red_ref->s);
-	perror(msg);
-	safe_free(c_ref, msg);
-}
-
 static int	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
 {
 	int		fd;
@@ -67,10 +58,7 @@ static int	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
 		red_ref = nod_ref->data;
 		_get_redir_fd(c_ref, red_ref, &fd, &fd2);
 		if (fd < 0)
-		{
-			_print_open_err(c_ref, red_ref);
-			return (EXIT_FAILURE);
-		}
+			return (seterr(c_ref, ERROR_OPEN, NULL, red_ref->s));
 		safe_dup2(c_ref, fd, fd2);
 		close(fd);
 		nod_ref = nod_ref->next;

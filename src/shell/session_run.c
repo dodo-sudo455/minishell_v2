@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 13:36:13 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:54:48 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 void	session_run(t_ctx *c_ref, t_session *s_ref)
 {
 	if (session_prompt(c_ref, s_ref) != ERROR_OK)
-		logerr(c_ref);
-	else if (session_parse(c_ref, s_ref) != ERROR_OK)
-		logerr(c_ref);
-	else if (session_exec(c_ref, s_ref) != ERROR_OK)
-		logerr(c_ref);
+		return ;
+	if (session_parse(c_ref, s_ref) != ERROR_OK)
+		return ;
+	if (session_exec(c_ref, s_ref) != ERROR_OK)
+		return ;
 }
 
 t_error	session_prompt(t_ctx *c_ref, t_session *s_ref)

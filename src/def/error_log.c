@@ -6,32 +6,46 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 14:04:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 15:22:58 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 20:00:00 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
 
-static void	_log_quote(const t_ctx *c_ref)
+static void	_log_quote(const char *errcmd, const char *errarg)
 {
-	(void)c_ref;
+	(void)errcmd;
+	(void)errarg;
 	util_puterr("minishell: syntax error: unexpected quote usage\n");
 }
 
 // minishell: syntax error near unexpected token 
-static void	_log_syn_near_token(const t_ctx *c_ref)
+static void	_log_syn_near_token(const char *errcmd, const char *errarg)
 {
+	(void)errcmd;
 	util_puterr("minishell: syntax error near unexpected token `");
-	util_puterr(c_ref->errarg);
+	util_puterr(errarg);
 	util_puterr("`\n");
 }
 
 // minishell: export: `arg`: not a valid identifier
-static void	_log_invalid_env(const t_ctx *c_ref)
+static void	_log_invalid_identifier(const char *errcmd, const char *errarg)
 {
+	(void)errcmd;
 	util_puterr("minishell: export: `");
-	util_puterr(c_ref->errarg);
+	util_puterr(errarg);
 	util_puterr("`: not a valid identifier\n");
+}
+
+// minishell: warning:
+// 	here-document at line 1 delimited by end-of-file (wanted `errarg`)
+static void	_log_abort(const char *errcmd, const char *errarg)
+{
+	(void)errcmd;
+	util_puterr("minishell: warning: ");
+	util_puterr("here-document delimited by end-of-file (wanted `");
+	util_puterr(errarg);
+	util_puterr("')");
 }
 
 /**
@@ -39,13 +53,20 @@ static void	_log_invalid_env(const t_ctx *c_ref)
  *
  *			Print error and reset error state.
  */
-void	logerr(t_ctx *c_ref)
+void	logerr(t_error err, const char *errcmd, const char *errarg)
 {
-	if (c_ref->err == ERROR_QUOTE)
-		_log_quote(c_ref);
-	if (c_ref->err == ERROR_SYN_NEAR_TOKEN)
-		_log_syn_near_token(c_ref);
-	else if (c_ref->err == ERROR_INVALID_IDENTIFIER)
-		_log_invalid_env(c_ref);
-	unseterr(c_ref);
+	if (err == ERROR_QUOTE)
+		_log_quote(errcmd, errarg);
+	else if (err == ERROR_SYN_NEAR_TOKEN)
+		_log_syn_near_token(errcmd, errarg);
+	else if (err == ERROR_INVALID_IDENTIFIER)
+		_log_invalid_identifier(errcmd, errarg);
+	else if (err == ERROR_ABORT)
+		_log_abort(errcmd, errarg);
+	else if (err == ERROR_ENV_GOT_ARG)
+		logerr_env_got_arg(errcmd, errarg);
+	else if (err == ERROR_OPEN)
+		logerr_open(errcmd, errarg);
+	else
+		return ;
 }

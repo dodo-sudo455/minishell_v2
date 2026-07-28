@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:55:04 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:58:37 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ static int	_set(
 		ctx_setenv(c_ref, key, val);
 		return (0);
 	}
-	seterr(c_ref, ERROR_INVALID_IDENTIFIER, "export", arg);
-	return (1);
+	return (seterr(c_ref, ERROR_INVALID_IDENTIFIER, "export", arg));
 }
 
 static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)
@@ -69,10 +68,7 @@ static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)
 		status = _set(c_ref, arg, arg, "");
 	}
 	if (status == 1)
-	{
 		*status_ref = 1;
-		logerr(c_ref);
-	}
 }
 
 int	cmd_built_export(t_ctx *c_ref, const t_cmd *cmd_ref)
