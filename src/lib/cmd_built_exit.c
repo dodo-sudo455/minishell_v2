@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_built_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:39:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:33:15 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:31:28 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	cmd_built_exit(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	t_lst	*arg_node;
 	char	*arg;
+	int		exit_status;
 
 	if (ft_lst_size(&cmd_ref->arglst) == 1)
 	{
@@ -72,7 +73,8 @@ int	cmd_built_exit(t_ctx *c_ref, const t_cmd *cmd_ref)
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
+	exit_status = ft_atoi(arg);
 	ctx_clear(c_ref);
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(ft_atoi(arg));
+	exit(exit_status);
 }
