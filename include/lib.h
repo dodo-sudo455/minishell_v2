@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:21:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 16:49:53 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:54:58 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ struct s_cmd
 	pid_t	pid;
 };
 
+/* cmd.c */
 t_cmd		*cmd_new(t_ctx *c_ref);
 void		cmd_drop(t_ctx *c_ref, t_cmd *cmd_ref);
 int			cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref);
 bool		cmd_is_built_in(const t_cmd *cmd_ref);
 void		cmdlst_clear(t_ctx *c_ref, t_lst *cmdlst_ref);
 
-/* cmd_built.c */
+/* cmd_built_xxx.c */
 int			cmd_built_echo(t_ctx *c_ref, const t_cmd *cmd_ref);
 int			cmd_built_cd(t_ctx *c_ref, const t_cmd *cmd_ref);
 int			cmd_built_pwd(t_ctx *c_ref, const t_cmd *cmd_ref);

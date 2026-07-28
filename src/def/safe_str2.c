@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_str2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 14:16:30 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/22 14:25:25 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/28 15:41:45 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**safe_split(t_ctx *c_ref, const char *s, char c)
 	return (result);
 }
 
-void	safe_split_free(t_ctx *c_ref, char **sp)
+void	safe_strarr_free(t_ctx *c_ref, char **sp)
 {
 	size_t	i;
 
