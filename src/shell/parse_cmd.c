@@ -6,12 +6,17 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 15:11:56 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:54:08 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+/**
+ *	DESCRIPTION
+ *
+ *		
+ */
 static t_error	_parse_redir(t_ctx *c_ref, t_cmd *cmd_ref, t_lst *nod_ref)
 {
 	t_token	*tokref_arr[2];

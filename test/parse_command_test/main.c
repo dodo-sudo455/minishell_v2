@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:24:58 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/17 18:31:50 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:39:09 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ static void	run_parse_and_log(
 	parse_tokenize(c, input, toklst);
 	parse_expand(c, toklst);
 	parse_quote(c, toklst);
-	if (parse_command(c, toklst, cmdlst) != ERROR_OK)
-		logerr(c);
-	else
+	if (parse_command(c, toklst, cmdlst) == ERROR_OK)
 	{
 		log_lst_with(cmdlst, (void (*)(void *, size_t))log_cmd, 0, true);
 		printf("\n");

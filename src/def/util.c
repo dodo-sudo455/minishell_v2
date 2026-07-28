@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 13:30:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 19:37:20 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:06:39 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	util_envlen(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	if (s[0] == '\0')
 		return (0);
 	if (ft_isalpha((unsigned char)s[0]) == 0 && s[0] != '_')

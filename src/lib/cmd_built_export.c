@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:55:04 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 19:58:37 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:22:01 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ static int	_run_declare_x(t_ctx *c_ref, const t_lst *envlst_ref)
 static int	_set(
 	t_ctx *c_ref, const char *arg, const char *key, const char *val)
 {
-	size_t	len;
-
-	len = util_envlen(key);
-	if (*key && len == ft_strlen(key))
+	if (*key && util_envlen(key) == ft_strlen(key))
 	{
 		ctx_setenv(c_ref, key, val);
 		return (0);
@@ -67,7 +64,7 @@ static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)
 	{
 		status = _set(c_ref, arg, arg, "");
 	}
-	if (status == 1)
+	if (status != 0)
 		*status_ref = 1;
 }
 

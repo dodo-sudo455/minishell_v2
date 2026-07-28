@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 11:49:05 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/21 17:28:58 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:39:09 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	ctx_init(&c, envp);
 	s = session_make();
 	s.input = safe_strdup(&c, input);
-	if (session_parse(&c, &s) != ERROR_OK)
-		logerr(&c);
-	else
+	if (session_parse(&c, &s) == ERROR_OK)
 	{
 		log_lst_with(&s.toklst, (void (*)(void *, size_t))log_token, 0, true);
 		printf("\n");
