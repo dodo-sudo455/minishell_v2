@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 17:11:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 18:23:48 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 11:45:14 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,24 @@ static void	_remove_quote(t_ctx *c_ref, char **s)
 {
 	t_vec	vec;
 	size_t	i;
+	bool	is_squote;
+	bool	is_dquote;
 
 	vec = ft_vec_make(ft_strlen(*s));
 	i = 0;
+	is_squote = false;
+	is_dquote = false;
 	while ((*s)[i])
 	{
-		if ((*s)[i] == '\'' || (*s)[i] == '\"')
+		if (!is_dquote && (*s)[i] == '\'')
 		{
+			is_squote = !is_squote;
+			i += 1;
+			continue ;
+		}
+		if (!is_squote && (*s)[i] == '"')
+		{
+			is_dquote = !is_dquote;
 			i += 1;
 			continue ;
 		}
