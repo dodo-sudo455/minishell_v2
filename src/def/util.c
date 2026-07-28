@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 13:30:00 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 14:06:39 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 16:10:35 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,24 @@ int	util_parse_status(int status)
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (status);
+}
+
+char	**util_lst_to_arr(t_ctx *c_ref, const t_lst *arglst_ref)
+{
+	char		**argv;
+	const t_lst	*p;
+	size_t		i;
+
+	argv = safe_malloc(c_ref,
+			sizeof(char *) * (ft_lst_size(arglst_ref) + 1));
+	p = arglst_ref->next;
+	i = 0;
+	while (p && p != arglst_ref)
+	{
+		argv[i] = safe_strdup(c_ref, (char *)p->data);
+		p = p->next;
+		i += 1;
+	}
+	argv[i] = NULL;
+	return (argv);
 }

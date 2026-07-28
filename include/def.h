@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 14:58:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:55:02 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void		env_drop(t_ctx *c_ref, t_env *env_ref);
 void		envlst_init(t_ctx *c_ref, t_lst *envlst_ref, char **envp);
 void		envlst_clear(t_ctx *c_ref, t_lst *envlst_ref);
 t_lst		**envlst_sort(t_ctx *c_ref, const t_lst *envlst_ref);
+char		**envlst_to_arr(t_ctx *c_ref, const t_lst *envlst_ref);
 
 /* ---------------------------------- */
 /* gc                                 */
@@ -167,7 +168,7 @@ char		*safe_itoa(t_ctx *c_ref, int n);
 
 /* safe_str2.c */
 char		**safe_split(t_ctx *c_ref, const char *s, char c);
-void		safe_split_free(t_ctx *c_ref, char **sp);
+void		safe_strarr_free(t_ctx *c_ref, char **sp);
 
 /* safe_uni.c */
 void		safe_dup2(t_ctx *c_ref, int fd, int fd2);
@@ -194,5 +195,6 @@ char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
 size_t		util_envlen(const char *s);
 ssize_t		util_puterr(const char *s);
 int			util_parse_status(int status);
+char		**util_lst_to_arr(t_ctx *c_ref, const t_cmd *cmd_ref);
 
 #endif // DEF_H
