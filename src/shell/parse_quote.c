@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 17:11:56 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 11:45:14 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:02:32 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,11 @@ static void	_remove_quote(t_ctx *c_ref, char **s)
 	while ((*s)[i])
 	{
 		if (!is_dquote && (*s)[i] == '\'')
-		{
 			is_squote = !is_squote;
-			i += 1;
-			continue ;
-		}
-		if (!is_squote && (*s)[i] == '"')
-		{
+		else if (!is_squote && (*s)[i] == '"')
 			is_dquote = !is_dquote;
-			i += 1;
-			continue ;
-		}
-		safe_vec_push(c_ref, &vec, (*s)[i]);
+		else
+			safe_vec_push(c_ref, &vec, (*s)[i]);
 		i += 1;
 	}
 	*s = safe_vec_to_str(c_ref, &vec);
