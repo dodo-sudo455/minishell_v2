@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 20:00:08 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:58:11 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ enum e_fatal
  *		and maintains address list for implementing garbage
  *		collector.
  *
- *	TODO
- *		- handle heredoc list
+ *	FIELDS
+ *
+ *		- `err`: session error
+ *		- `status`: previous session status
  */
 struct s_ctx
 {
