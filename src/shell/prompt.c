@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/22 15:10:54 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 11:19:42 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_error	prompt(t_ctx *c_ref, char **input)
 		if (!s)
 		{
 			ctx_clear(c_ref);
+			printf("exit\n");
 			exit(0);
 		}
 		if (!*s)
