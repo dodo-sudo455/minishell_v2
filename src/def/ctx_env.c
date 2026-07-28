@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ctx_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 17:37:55 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/25 17:55:18 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:02:48 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ctx_unsetenv(t_ctx *c_ref, const char *key)
 			safe_lst_remove_with(c_ref, nod_ref, _safe_drop_env);
 			break ;
 		}
+		nod_ref = nod_ref->next;
 	}
 }
 
