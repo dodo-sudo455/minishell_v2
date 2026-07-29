@@ -100,6 +100,7 @@ static void	_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 		if (safe_fork(c_ref, &((t_cmd *)nod_ref->data)->pid) == 0)
 		{
 			_set_sig_child(c_ref);
+			safe_close(c_ref, pipefd[0]);
 			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
 		}
 		safe_close(c_ref, prevfd);
