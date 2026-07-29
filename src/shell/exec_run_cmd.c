@@ -74,9 +74,15 @@ static int	_exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 	int	status;
 
 	if (infd != -1)
+	{
 		safe_dup2(c_ref, infd, STDIN_FILENO);
+		close(infd);
+	}
 	if (outfd != -1)
+	{
 		safe_dup2(c_ref, outfd, STDOUT_FILENO);
+		close(outfd);
+	}
 	status = _handle_redir(c_ref, cmd_ref);
 	if (status != ERROR_OK)
 		return (status);
