@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/28 16:30:51 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 12:05:12 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,21 @@ static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
 	return (0);
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		
+ */
 static char	*_get_cmd_path(
-	t_ctx *c_ref, const char *env_path, const char *cmd)
+	t_ctx *c_ref, const char *env_path, const char *cmd_ref)
 {
 	char	**paths;
 	char	*path;
 	char	*candidate;
 	size_t	i;
 
-	if (ft_strchr(cmd, '/'))
-		return (safe_strdup(c_ref, cmd));
+	if (ft_strchr(cmd_ref, '/'))
+		return (safe_strdup(c_ref, cmd_ref));
 	if (!env_path)
 		return (NULL);
 	paths = safe_split(c_ref, env_path, ':');
@@ -51,7 +56,7 @@ static char	*_get_cmd_path(
 	while (paths[i])
 	{
 		path = safe_strjoin(c_ref, paths[i], "/");
-		candidate = safe_strjoin(c_ref, path, cmd);
+		candidate = safe_strjoin(c_ref, path, cmd_ref);
 		safe_free(c_ref, path);
 		if (access(candidate, X_OK) == 0)
 			return (safe_strarr_free(c_ref, paths), candidate);
@@ -61,15 +66,18 @@ static char	*_get_cmd_path(
 	return (safe_strarr_free(c_ref, paths), NULL);
 }
 
-static int	cmd_run_path(
-	t_ctx *c_ref, char *cmd_path, const t_lst *arglst)
+/**
+ *	DESCRIPTION
+ *
+ *		It calls `execve` 
+ */
+static int	_cmd_run_path(
+	t_ctx *c_ref, char *cmd_path, const t_lst *arglst_ref)
 {
 	char	**argv;
 	char	**envp;
-	int		status;
 
-	status = 0;
-	argv = util_lst_to_arr(c_ref, arglst);
+	argv = arglst_to_arr(c_ref, arglst_ref);
 	envp = envlst_to_arr(c_ref, &c_ref->envlst);
 	execve(cmd_path, argv, envp);
 	util_puterr("minishell: ");
@@ -82,6 +90,16 @@ static int	cmd_run_path(
 		return (126);
 }
 
+/**
+ *	DESCRIPTION
+ *
+ *		 It determines if the argument is a built-in or normal
+ *		command and run the command.
+ *
+ *		 It handles errors:
+ *			- 126: the user doesn't have permission for the program.
+ *			- 127: the program is not found.
+ */
 int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*cmd_path;
@@ -92,7 +110,7 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 	if (cmd_is_built_in(cmd_ref))
 		return (_run_built_in(c_ref, cmd_ref));
 	cmd_path = _get_cmd_path(c_ref,
-			getenv("PATH"), &cmd_ref->arglst.next->data);
+			getenv("PATH"), cmd_ref->arglst.next->data);
 	if (!cmd_path)
 	{
 		util_puterr("minishell: ");
@@ -100,6 +118,6 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 		util_puterr(": command not found\n");
 		return (127);
 	}
-	ret = cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
+	ret = _cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
 	return (safe_free(c_ref, cmd_path), ret);
 }
