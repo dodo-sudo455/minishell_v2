@@ -3,17 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 15:37:39 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:44:01 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 #include <errno.h>
 #include <sys/stat.h>
+#define STATUS_CANNOT_EXECUTE 126	// `permission denied` or `is a directory`
+#define STATUS_NOT_FOUND 127		// `command not found`
 
+/**
+ *	DESCRIPTION
+ *
+ *		It runs a built-in command.
+ */
 static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	if (!cmd_ref || ft_lst_is_empty(&cmd_ref->arglst))
@@ -38,7 +45,8 @@ static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
 /**
  *	DESCRIPTION
  *
- *		
+ *		 If the path contains '/', return the copy of it.
+ *		Otherwise, find program file in `PATH` env var.
  */
 static char	*_get_cmd_path(
 	t_ctx *c_ref, const char *cmd_ref)
@@ -73,7 +81,7 @@ static char	*_get_cmd_path(
 /**
  *	DESCRIPTION
  *
- *		It calls `execve` 
+ *		It runs command with `execve`.
  */
 static int	_cmd_run_path(
 	t_ctx *c_ref, char *cmd_path, const t_lst *arglst_ref)
@@ -91,9 +99,9 @@ static int	_cmd_run_path(
 	safe_strarr_free(c_ref, envp);
 	safe_strarr_free(c_ref, argv);
 	if (err == ENOENT)
-		return (127);
+		return (STATUS_NOT_FOUND);
 	else
-		return (126);
+		return (STATUS_CANNOT_EXECUTE);
 }
 
 /**
@@ -122,14 +130,14 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 		util_puterr("minishell: ");
 		util_puterr(cmd_ref->arglst.next->data);
 		util_puterr(": command not found\n");
-		return (127);
+		return (STATUS_NOT_FOUND);
 	}
 	if (stat(cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
 	{
 		util_puterr("minishell: ");
 		util_puterr(cmd_path);
 		util_puterr(": Is a directory\n");
-		return (126);
+		return (STATUS_CANNOT_EXECUTE);
 	}
 	ret = _cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
 	return (safe_free(c_ref, cmd_path), ret);

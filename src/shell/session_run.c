@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 15:01:06 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 18:54:48 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 19:22:07 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_error	session_parse(t_ctx *c_ref, t_session *s_ref)
 	return (ERROR_OK);
 }
 
-// TODO
 t_error	session_exec(t_ctx *c_ref, t_session *s_ref)
 {
 	t_error	err;

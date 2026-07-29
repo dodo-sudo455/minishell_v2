@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:28:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/27 20:05:01 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 19:44:58 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ static int	_exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
  *
  *		 Built-in funcs should duplicate std fds because they
  *		run on parent process.
+ *
+ *	RETURNS
+ *
+ *		 It returns status code.
  */
 int	exec_run_cmd(t_ctx *c_ref, t_cmd *cmd_ref, int infd, int outfd)
 {
