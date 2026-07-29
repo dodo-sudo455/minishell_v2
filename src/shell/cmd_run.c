@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 14:37:45 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 15:37:39 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
  *		
  */
 static char	*_get_cmd_path(
-	t_ctx *c_ref, const char *env_path, const char *cmd_ref)
+	t_ctx *c_ref, const char *cmd_ref)
 {
 	char	**paths;
 	char	*path;
 	char	*candidate;
+	char	*env_path;
 	size_t	i;
 
 	if (ft_strchr(cmd_ref, '/'))
 		return (safe_strdup(c_ref, cmd_ref));
+	env_path = ctx_getenv(c_ref, "PATH");
 	if (!env_path)
 		return (NULL);
 	paths = safe_split(c_ref, env_path, ':');
@@ -60,11 +62,12 @@ static char	*_get_cmd_path(
 		candidate = safe_strjoin(c_ref, path, cmd_ref);
 		safe_free(c_ref, path);
 		if (access(candidate, X_OK) == 0)
-			return (safe_strarr_free(c_ref, paths), candidate);
+			return (safe_free(c_ref, env_path),
+				safe_strarr_free(c_ref, paths), candidate);
 		safe_free(c_ref, candidate);
 		i += 1;
 	}
-	return (safe_strarr_free(c_ref, paths), NULL);
+	return (safe_free(c_ref, env_path), safe_strarr_free(c_ref, paths), NULL);
 }
 
 /**
@@ -113,7 +116,7 @@ int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 		return (0);
 	if (cmd_is_built_in(cmd_ref))
 		return (_run_built_in(c_ref, cmd_ref));
-	cmd_path = _get_cmd_path(c_ref, getenv("PATH"), cmd_ref->arglst.next->data);
+	cmd_path = _get_cmd_path(c_ref, cmd_ref->arglst.next->data);
 	if (!cmd_path)
 	{
 		util_puterr("minishell: ");
