@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 14:54:08 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:11:30 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ t_error	parse_command(
 	nod_ref = toklst_ref->next;
 	while (nod_ref != toklst_ref)
 	{
+		if (token_is_pipe(nod_ref->data) && nod_ref->next == toklst_ref)
+			return (ctx_setstatus(c_ref, 2),
+				seterr(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "|"));
 		if (_parse_node(c_ref, cmdlst_ref, &cmd_ref, &nod_ref) != ERROR_OK)
 			return (geterr(c_ref));
 	}
