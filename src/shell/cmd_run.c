@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 12:05:12 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 14:22:07 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,17 @@ static int	_cmd_run_path(
 {
 	char	**argv;
 	char	**envp;
+	int		err;
 
 	argv = arglst_to_arr(c_ref, arglst_ref);
 	envp = envlst_to_arr(c_ref, &c_ref->envlst);
 	execve(cmd_path, argv, envp);
+	err = errno;
 	util_puterr("minishell: ");
 	perror(cmd_path);
 	safe_strarr_free(c_ref, envp);
 	safe_strarr_free(c_ref, argv);
-	if (errno == ENOENT)
+	if (err == ENOENT)
 		return (127);
 	else
 		return (126);
