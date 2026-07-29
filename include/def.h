@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 15:55:02 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 11:45:40 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,5 @@ char		*safe_vec_to_str(t_ctx *c_ref, t_vec *vec_ref);
 size_t		util_envlen(const char *s);
 ssize_t		util_puterr(const char *s);
 int			util_parse_status(int status);
-char		**util_lst_to_arr(t_ctx *c_ref, const t_cmd *cmd_ref);
 
 #endif // DEF_H
