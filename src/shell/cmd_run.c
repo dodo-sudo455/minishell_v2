@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 14:35:45 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 14:37:45 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,9 @@ static int	_cmd_run_path(
 	char		**argv;
 	char		**envp;
 	int			err;
-	struct stat	st;
 
 	argv = arglst_to_arr(c_ref, arglst_ref);
 	envp = envlst_to_arr(c_ref, &c_ref->envlst);
-	if (stat(cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
-	{
-		util_puterr("minishell: ");
-		util_puterr(cmd_path);
-		util_puterr(": Is a directory\n");
-		safe_strarr_free(c_ref, envp);
-		safe_strarr_free(c_ref, argv);
-		return (126);
-	}
 	execve(cmd_path, argv, envp);
 	err = errno;
 	util_puterr("minishell: ");
