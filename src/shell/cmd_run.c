@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 17:38:49 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 14:22:07 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/29 14:37:45 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 #include <errno.h>
+#include <sys/stat.h>
 
 static int	_run_built_in(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
@@ -74,9 +75,9 @@ static char	*_get_cmd_path(
 static int	_cmd_run_path(
 	t_ctx *c_ref, char *cmd_path, const t_lst *arglst_ref)
 {
-	char	**argv;
-	char	**envp;
-	int		err;
+	char		**argv;
+	char		**envp;
+	int			err;
 
 	argv = arglst_to_arr(c_ref, arglst_ref);
 	envp = envlst_to_arr(c_ref, &c_ref->envlst);
@@ -104,21 +105,28 @@ static int	_cmd_run_path(
  */
 int	cmd_run(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
-	char	*cmd_path;
-	int		ret;
+	char		*cmd_path;
+	int			ret;
+	struct stat	st;
 
 	if (ft_lst_is_empty(&cmd_ref->arglst))
 		return (0);
 	if (cmd_is_built_in(cmd_ref))
 		return (_run_built_in(c_ref, cmd_ref));
-	cmd_path = _get_cmd_path(c_ref,
-			getenv("PATH"), cmd_ref->arglst.next->data);
+	cmd_path = _get_cmd_path(c_ref, getenv("PATH"), cmd_ref->arglst.next->data);
 	if (!cmd_path)
 	{
 		util_puterr("minishell: ");
 		util_puterr(cmd_ref->arglst.next->data);
 		util_puterr(": command not found\n");
 		return (127);
+	}
+	if (stat(cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		util_puterr("minishell: ");
+		util_puterr(cmd_path);
+		util_puterr(": Is a directory\n");
+		return (126);
 	}
 	ret = _cmd_run_path(c_ref, cmd_path, &cmd_ref->arglst);
 	return (safe_free(c_ref, cmd_path), ret);
