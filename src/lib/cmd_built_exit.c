@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:39:34 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/29 16:58:43 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 17:01:40 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,16 @@ static void	_exit_numeric_error(t_ctx *c_ref, const char *arg)
 }
 
 /*
-	DESCIPTION
-		- exit
-
-	NOTE
-		- 모든 경우 exit 출력 후 다음 동작 진행
-		- `exit`: exit(0)
-		- `exit 2`: exit(2)
-		- `exit 1 2`, `exit 1 a`: `minishell: exit: too many arguments`, 1 return
-		- `exit a`, `exit a 1`, `exit a b`:
-			`minishell: exit: a: numeric argument required`, exit(2)
+ *	DESCIPTION
+ *
+ *		Print `exit` and exit with status code.
+ *
+ *	NOTE
+ *		- `exit`: exit(0)
+ *		- `exit 2`: exit(2)
+ *		- `exit 1 2`, `exit 1 a`: `minishell: exit: too many arguments`, 1 return
+ *		- `exit a`, `exit a 1`, `exit a b`:
+ *			`minishell: exit: a: numeric argument required`, exit(2)
 */
 int	cmd_built_exit(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
