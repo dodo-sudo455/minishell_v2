@@ -6,7 +6,7 @@
 /*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 17:11:30 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:32:16 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static t_error	_parse_word(t_ctx *c_ref, t_cmd *cmd_ref, t_lst *nod_ref)
 static t_error	_parse_pipe(
 	t_ctx *c_ref, t_lst *cmdlst_ref, t_cmd **cmd_ref)
 {
-	if (ft_lst_is_empty(&(*cmd_ref)->arglst))
-		return (seterr(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "|"));
 	safe_lst_push(c_ref, cmdlst_ref, *cmd_ref);
 	*cmd_ref = cmd_new(c_ref);
 	return (ERROR_OK);
