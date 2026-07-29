@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_built_export.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:55:04 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/28 14:22:01 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/29 16:04:21 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)
 		safe_free(c_ref, key);
 	}
 	else
-	{
-		status = _set(c_ref, arg, arg, "");
-	}
+		status = 0;
 	if (status != 0)
 		*status_ref = 1;
 }
