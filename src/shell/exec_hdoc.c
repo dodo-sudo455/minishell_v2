@@ -27,48 +27,6 @@ static void	_set_sig_parent(t_ctx *c_ref, struct sigaction *oact)
 	safe_sigaction(c_ref, SIGINT, &sa, oact);
 }
 
-static void	_set_sig_child(t_ctx *c_ref)
-{
-	struct sigaction	sa;
-
-	sa.sa_flags = 0;
-	safe_sigemptyset(c_ref, &sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
-	safe_sigaction(c_ref, SIGINT, &sa, NULL);
-}
-
-static void	_handle_hdoc_child(
-	t_ctx *c_ref, int fd, const char *delim, bool is_expand)
-{
-	char	*input;
-
-	_set_sig_child(c_ref);
-	while (1)
-	{
-		input = safe_readline(c_ref, "> ");
-		if (!input)
-		{
-			util_puterr("minishell: warning: \
-here-document delimited by end-of-file (wanted `");
-			util_puterr(delim);
-			util_puterr("')\n");
-			ctx_clear(c_ref);
-			exit(0);
-		}
-		if (ft_strcmp(input, delim) == 0)
-			break ;
-		if (is_expand)
-			ctx_expand(c_ref, &input);
-		safe_write(c_ref, fd, input);
-		safe_write(c_ref, fd, "\n");
-		safe_free(c_ref, input);
-	}
-	safe_free(c_ref, input);
-	safe_close(c_ref, fd);
-	ctx_clear(c_ref);
-	exit(0);
-}
-
 static int	_handle_hdoc(t_ctx *c_ref, t_redir *red_ref)
 {
 	struct sigaction	oact;
@@ -82,7 +40,7 @@ static int	_handle_hdoc(t_ctx *c_ref, t_redir *red_ref)
 	unlink(HDOC_FNAME);
 	if (safe_fork(c_ref, &pid) == 0)
 	{
-		_handle_hdoc_child(c_ref, fd, red_ref->s, !red_ref->has_quote);
+		exec_hdoc_child(c_ref, fd, red_ref->s, !red_ref->has_quote);
 	}
 	safe_close(c_ref, fd);
 	waitpid(pid, &status, 0);
