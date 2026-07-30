@@ -28,5 +28,4 @@ void	session_clear(t_ctx *c_ref, t_session *s_ref)
 	toklst_clear(c_ref, &s_ref->toklst);
 	cmdlst_clear(c_ref, &s_ref->cmdlst);
 	ft_memset(s_ref, 0, sizeof(t_session));
-	unseterr(c_ref);
 }

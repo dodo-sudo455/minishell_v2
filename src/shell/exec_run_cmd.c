@@ -59,7 +59,7 @@ static int	_handle_redir(t_ctx *c_ref, t_cmd *cmd_ref)
 		_get_redir_fd(c_ref, red_ref, &fd, &fd2);
 		if (fd < 0)
 		{
-			seterr(c_ref, ERROR_OPEN, NULL, red_ref->s);
+			ctx_abort(c_ref, ERROR_OPEN, NULL, red_ref->s);
 			return (1);
 		}
 		safe_dup2(c_ref, fd, fd2);

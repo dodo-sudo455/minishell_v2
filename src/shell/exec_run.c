@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 19:50:44 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:31:26 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	_run_child(t_ctx *c_ref, t_cmd *cmd_ref, int pipefd[2], int prevfd)
 	sa.sa_handler = SIG_DFL;
 	safe_sigaction(c_ref, SIGINT, &sa, NULL);
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
-	_set_sig_child(c_ref);
 	safe_close(c_ref, pipefd[0]);
 	ctx_setstatus(c_ref,
 		exec_run_cmd(c_ref, cmd_ref, prevfd, pipefd[1]));
