@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 16:40:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/30 14:15:27 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:43:03 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	ctx_clear(t_ctx *c_ref)
 {
 	envlst_clear(c_ref, &c_ref->envlst);
 	gc_clear(&c_ref->gc);
-	ft_memset(c_ref, 0, sizeof(t_ctx));
 }

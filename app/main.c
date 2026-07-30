@@ -14,6 +14,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+int	g_sig = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_ctx		ctx;
