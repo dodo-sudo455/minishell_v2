@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 14:04:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/30 14:05:04 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:17:10 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	_log_syn_near_token(const char *errcmd, const char *errarg)
 	(void)errcmd;
 	util_puterr("minishell: syntax error near unexpected token `");
 	util_puterr(errarg);
-	util_puterr("`\n");
+	util_puterr("'\n");
 }
 
 // minishell: export: `arg': not a valid identifier
