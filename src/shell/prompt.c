@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/30 14:15:49 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:34:41 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static void	_sigint_handler(int sig)
 {
-	(void)sig;
+	g_sig = sig;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -36,22 +36,39 @@ static void	_set_signal(t_ctx *c_ref)
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
+static void	_check_sig(t_ctx *c_ref)
+{
+	if (g_sig == SIGINT)
+	{
+		c_ref->status = 130;
+		g_sig = 0;
+	}
+}
+
+static void	_exit(t_ctx *c_ref)
+{
+	int	status;
+
+	status = c_ref->status;
+	ctx_clear(c_ref);
+	printf("exit\n");
+	exit(status);
+}
+
 int	prompt(t_ctx *c_ref, char **input)
 {
 	char	*s;
-	int		status;
 
 	*input = NULL;
 	_set_signal(c_ref);
+	g_sig = 0;
 	while (1)
 	{
 		s = safe_readline(c_ref, "minishell> ");
+		_check_sig(c_ref);
 		if (!s)
 		{
-			status = c_ref->status;
-			ctx_clear(c_ref);
-			printf("exit\n");
-			exit(status);
+			_exit(c_ref);
 		}
 		if (!*s)
 		{

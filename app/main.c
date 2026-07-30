@@ -6,11 +6,13 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 14:27:32 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 13:28:28 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:33:18 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+int	g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
