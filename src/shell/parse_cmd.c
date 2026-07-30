@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 17:00:01 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 19:32:16 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/30 14:24:06 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ static int	_parse_redir(t_ctx *c_ref, t_cmd *cmd_ref, t_lst *nod_ref)
 	tokref_arr[0] = nod_ref->data;
 	nod_ref = nod_ref->next;
 	tokref_arr[1] = nod_ref->data;
-	if (!token_is_word(tokref_arr[1]))
+	if (!tokref_arr[1] || !token_is_word(tokref_arr[1]))
+	{
+		if (!tokref_arr[1])
+			return (ctx_abort(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "newline"));
 		return (ctx_abort(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, tokref_arr[1]->s));
+	}
 	red_ref = redir_new(c_ref,
 			token_to_redirtype(tokref_arr[0]), tokref_arr[1]);
 	safe_lst_push(c_ref, &cmd_ref->redlst, red_ref);
@@ -54,11 +58,14 @@ static int	_parse_node(
 	t_ctx *c_ref, t_lst *cmdlst_ref, t_cmd **cmd_ref, t_lst **nod_ref)
 {
 	t_token	*tok_ref;
+	int		status;
 
 	tok_ref = (*nod_ref)->data;
 	if (token_is_redir(tok_ref))
 	{
-		_parse_redir(c_ref, *cmd_ref, *nod_ref);
+		status = _parse_redir(c_ref, *cmd_ref, *nod_ref);
+		if (status != ERROR_OK)
+			return (status);
 		*nod_ref = (*nod_ref)->next;
 		*nod_ref = (*nod_ref)->next;
 	}
@@ -88,8 +95,13 @@ int	parse_command(
 	nod_ref = toklst_ref->next;
 	while (nod_ref != toklst_ref)
 	{
-		if (token_is_pipe(nod_ref->data) && nod_ref->next == toklst_ref)
-			return (ctx_abort(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "|"));
+		if (token_is_pipe(nod_ref->data))
+		{
+			if (nod_ref->prev == toklst_ref
+				|| nod_ref->next == toklst_ref
+				|| token_is_pipe(nod_ref->next->data))
+				return (ctx_abort(c_ref, ERROR_SYN_NEAR_TOKEN, NULL, "|"));
+		}
 		if (_parse_node(c_ref, cmdlst_ref, &cmd_ref, &nod_ref) != ERROR_OK)
 			return (c_ref->status);
 	}
