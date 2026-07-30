@@ -45,7 +45,7 @@ static void	_check_sig(t_ctx *c_ref)
 	}
 }
 
-static void	_exit(t_ctx *c_ref)
+static void	_prompt_exit(t_ctx *c_ref)
 {
 	int	status;
 
@@ -68,7 +68,7 @@ int	prompt(t_ctx *c_ref, char **input)
 		_check_sig(c_ref);
 		if (!s)
 		{
-			_exit(c_ref);
+			_prompt_exit(c_ref);
 		}
 		if (!*s)
 		{

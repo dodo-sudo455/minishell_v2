@@ -52,6 +52,7 @@ static void	_handle_hdoc_child(
 here-document delimited by end-of-file (wanted `");
 			util_puterr(delim);
 			util_puterr("')\n");
+			ctx_clear(c_ref);
 			exit(0);
 		}
 		if (ft_strcmp(input, delim) == 0)
@@ -64,6 +65,7 @@ here-document delimited by end-of-file (wanted `");
 	}
 	safe_free(c_ref, input);
 	safe_close(c_ref, fd);
+	ctx_clear(c_ref);
 	exit(0);
 }
 
