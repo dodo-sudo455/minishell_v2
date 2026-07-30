@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_built_export.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:55:04 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 16:16:39 by doyelee          ###   ########.fr       */
+/*   Updated: 2026/07/30 14:05:04 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)
 		safe_free(c_ref, key);
 	}
 	else
-		status = (util_envlen(arg) != ft_strlen(arg));
+	{
+		if (*arg && util_envlen(arg) == ft_strlen(arg))
+			status = 0;
+		else
+			status = ctx_abort(c_ref, ERROR_INVALID_IDENTIFIER, "export", arg);
+	}
 	if (status != 0)
 		*status_ref = 1;
 }

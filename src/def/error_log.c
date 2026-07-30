@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 14:04:08 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 20:00:00 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:05:04 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void	_log_syn_near_token(const char *errcmd, const char *errarg)
 	util_puterr("`\n");
 }
 
-// minishell: export: `arg`: not a valid identifier
+// minishell: export: `arg': not a valid identifier
 static void	_log_invalid_identifier(const char *errcmd, const char *errarg)
 {
 	(void)errcmd;
 	util_puterr("minishell: export: `");
 	util_puterr(errarg);
-	util_puterr("`: not a valid identifier\n");
+	util_puterr("': not a valid identifier\n");
 }
 
 // minishell: warning:
