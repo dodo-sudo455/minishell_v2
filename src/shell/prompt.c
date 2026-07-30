@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 12:14:17 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 15:41:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:15:49 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	_set_signal(t_ctx *c_ref)
 int	prompt(t_ctx *c_ref, char **input)
 {
 	char	*s;
+	int		status;
 
 	*input = NULL;
 	_set_signal(c_ref);
@@ -47,9 +48,10 @@ int	prompt(t_ctx *c_ref, char **input)
 		s = safe_readline(c_ref, "minishell> ");
 		if (!s)
 		{
+			status = c_ref->status;
 			ctx_clear(c_ref);
 			printf("exit\n");
-			exit(c_ref->status);
+			exit(status);
 		}
 		if (!*s)
 		{
