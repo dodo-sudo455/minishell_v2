@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: doyelee <doyelee@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 14:27:32 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/30 14:33:18 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 15:11:46 by doyelee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	g_sig = 0;
 
@@ -28,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		session_run(&ctx, &ss);
 		session_clear(&ctx, &ss);
 	}
+	rl_clear_history();
 	ctx_clear(&ctx);
 	return (0);
 }
