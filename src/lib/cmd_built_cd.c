@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:46:25 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:28:28 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:10:39 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ static int	_cd_update_pwd(t_ctx *c_ref, const char *path)
 	return (0);
 }
 
-/*
-	DESCRIPTION
-		- 인자로 들어온 path로 이동
-
-	NOTE
-		- OLDPWD에 이동 전 디렉토리 절대경로 저장
-		- 디렉토리 이동 후 절대경로 PWD에 저장
-*/
+/**
+ *	DESCRIPTION
+ *		- Move to the path passed as an argument
+ *
+ *	NOTE
+ *		- Save the absolute path of the previous directory in OLDPWD
+ *		- Save the absolute path of the new directory in PWD after moving
+ */
 int	cmd_built_cd(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*errmsg;

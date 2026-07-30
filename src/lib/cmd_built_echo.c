@@ -6,20 +6,21 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 20:13:28 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:10:32 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-/*
-	DESCRIPTION
-		- echo의 n 옵션을 확인
-
-	RETURN VALUE
-		- `-n`, `-nn`, `-nnnnnnn...` 모두 true 반환
-		- `-ni` 등은 false 반환
-*/
+/**
+ *	DESCRIPTION
+ *
+ *		- Check for the n option in echo
+ *
+ *	RETURN VALUE
+ *		- Return true for `-n`, `-nn`, `-nnnnnnn...`
+ *		- Return false for `-ni`, etc.
+ */
 static bool	_is_n_option(const char *s)
 {
 	if (!s || *s != '-')
@@ -38,16 +39,16 @@ static bool	_is_n_option(const char *s)
 
 /*
 	DESCRIPTION
-		- echo 뒤의 인자를 출력
-		- `-n` 옵션 시 맨 끝 줄바꿈 문자 출력하지 않음
+		- Print arguments following echo
+		- Do not print a trailing newline if `-n` option is provided
 
 	NOTE
-		- `echo` -> 줄바꿈만 출력
-		- `echo hello` -> hello 출력 후 줄바꿈 출력
-		- `echo -n hello` -> hello만 출력
-		- `echo -nnnnn hello` -> `echo -n hello`와 같음
-		- `echo -na hello` -> -na hello 출력 후 줄바꿈 출력
-		- `echo hi -n hello` -> hi -n hello 출력 후 줄바꿈 출력
+		- `echo` -> Print only a newline
+		- `echo hello` -> Print hello followed by a newline
+		- `echo -n hello` -> Print only hello
+		- `echo -nnnnn hello` -> Same as `echo -n hello`
+		- `echo -na hello` -> Print -na hello followed by a newline
+		- `echo hi -n hello` -> Print hi -n hello followed by a newline
 */
 int	cmd_built_echo(t_ctx *c_ref, const t_cmd *cmd_ref)
 {

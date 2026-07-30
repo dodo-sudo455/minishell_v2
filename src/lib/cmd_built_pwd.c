@@ -6,18 +6,19 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:53:12 by doyelee           #+#    #+#             */
-/*   Updated: 2026/07/26 13:31:11 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:10:43 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-/*
-	DESCIPTION
-		- 현재 사용자가 위치한 디렉토리 절대경로 출력
-		- PWD 환경변수 값 가져옴
-		- PWD 환경변수가 빈값이면 getcwd() 함수 이용
-*/
+/**
+ *	DESCRIPTION
+ *
+ *		- Print the absolute path of the current working directory
+ *		- Retrieve the value of the PWD environment variable
+ *		- If PWD is empty, use the getcwd() function
+ */
 int	cmd_built_pwd(t_ctx *c_ref, const t_cmd *cmd_ref)
 {
 	char	*pwd;
