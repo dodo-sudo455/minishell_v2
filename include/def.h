@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/30 14:33:18 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 15:12:36 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <signal.h>
 # include "libft.h"
 
-extern int	g_sig;
+extern int					g_sig;
 
 typedef struct s_ctx		t_ctx;
 typedef struct s_env		t_env;
