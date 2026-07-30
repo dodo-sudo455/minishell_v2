@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ctx_abort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/17 15:02:48 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/27 18:50:09 by minseobk         ###   ########.fr       */
+/*   Created: 2026/07/30 11:56:04 by minseobk          #+#    #+#             */
+/*   Updated: 2026/07/30 13:37:46 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "def.h"
 
-t_error	geterr(const t_ctx *c_ref)
+static int	_err_to_status(t_error err)
 {
-	return (c_ref->err);
+	if (err == ERROR_OK)
+		return (0);
+	if (err == ERROR_QUOTE)
+		return (2);
+	if (err == ERROR_SYN_NEAR_TOKEN)
+		return (2);
+	if (err == ERROR_ABORT)
+		return (130);
+	if (err == ERROR_INVALID_IDENTIFIER)
+		return (1);
+	if (err == ERROR_ENV_GOT_ARG)
+		return (1);
+	if (err == ERROR_OPEN)
+		return (1);
+	return (1);
 }
 
-t_error	seterr(
+int	ctx_abort(
 	t_ctx *c_ref, t_error err, const char *errcmd, const char *errarg)
 {
-	c_ref->err = err;
 	logerr(err, errcmd, errarg);
-	return (err);
-}
-
-void	unseterr(t_ctx *c_ref)
-{
-	c_ref->err = ERROR_OK;
+	c_ref->status = _err_to_status(err);
+	return (c_ref->status);
 }

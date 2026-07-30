@@ -36,7 +36,7 @@ static void	_set_signal(t_ctx *c_ref)
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
 }
 
-t_error	prompt(t_ctx *c_ref, char **input)
+int	prompt(t_ctx *c_ref, char **input)
 {
 	char	*s;
 

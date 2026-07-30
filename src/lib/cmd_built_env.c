@@ -18,7 +18,7 @@ int	cmd_built_env(t_ctx *c_ref, const t_cmd *cmd_ref)
 	t_env	*env_ref;
 
 	if (ft_lst_size(&cmd_ref->arglst) > 1)
-		return (seterr(c_ref, ERROR_ENV_GOT_ARG, "env", NULL));
+		return (ctx_abort(c_ref, ERROR_ENV_GOT_ARG, "env", NULL));
 	nod_ref = c_ref->envlst.next;
 	while (nod_ref && nod_ref != &c_ref->envlst)
 	{

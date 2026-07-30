@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 15:20:07 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/29 11:45:40 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:58:21 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ enum e_error
 	ERROR_OPEN,
 };
 
-/* error.c */
-t_error		geterr(const t_ctx *c_ref);
-t_error		seterr(t_ctx *c_ref,
+/* ctx_abort.c */
+int			ctx_abort(t_ctx *c_ref,
 				t_error err, const char *errcmd, const char *errarg);
-void		unseterr(t_ctx *c_ref);
+
+/* error.c */
 
 /* error_log.c */
 void		logerr(t_error err, const char *errcmd, const char *errarg);
@@ -83,7 +83,6 @@ struct s_ctx
 	t_gc		gc;
 	char		**envp;
 	t_lst		envlst;
-	t_error		err;
 	int			status;
 };
 
@@ -91,7 +90,6 @@ struct s_ctx
 t_ctx		ctx_make(void);
 void		ctx_init(t_ctx *c_ref, char **envp);
 void		ctx_clear(t_ctx *c_ref);
-void		ctx_clear_err(t_ctx *c_ref);
 
 /* ctx_env */
 char		*ctx_getenv(t_ctx *c_ref, const char *key);

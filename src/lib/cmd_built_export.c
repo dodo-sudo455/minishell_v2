@@ -44,7 +44,7 @@ static int	_set(
 		ctx_setenv(c_ref, key, val);
 		return (0);
 	}
-	return (seterr(c_ref, ERROR_INVALID_IDENTIFIER, "export", arg));
+	return (ctx_abort(c_ref, ERROR_INVALID_IDENTIFIER, "export", arg));
 }
 
 static void	_parse_and_set(t_ctx *c_ref, const char *arg, int *status_ref)

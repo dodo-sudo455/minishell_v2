@@ -6,7 +6,7 @@
 /*   By: minseobk <minseobk@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:30:10 by minseobk          #+#    #+#             */
-/*   Updated: 2026/07/26 16:44:21 by minseobk         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:31:26 by minseobk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	_set_sig_parent(t_ctx *c_ref)
  *		- SIGINT: SIG_DFL
  *		- SIGQUIT: SIG_DFL
  */
-static void	_set_sig_child(t_ctx *c_ref)
+static void	_run_child(t_ctx *c_ref, t_cmd *cmd_ref, int pipefd[2], int prevfd)
 {
 	struct sigaction	sa;
 
@@ -48,6 +48,10 @@ static void	_set_sig_child(t_ctx *c_ref)
 	sa.sa_handler = SIG_DFL;
 	safe_sigaction(c_ref, SIGINT, &sa, NULL);
 	safe_sigaction(c_ref, SIGQUIT, &sa, NULL);
+	safe_close(c_ref, pipefd[0]);
+	ctx_setstatus(c_ref,
+		exec_run_cmd(c_ref, cmd_ref, prevfd, pipefd[1]));
+	exit(c_ref->status);
 }
 
 /**
@@ -99,9 +103,7 @@ static void	_run_all(t_ctx *c_ref, t_lst *cmdlst_ref)
 			safe_pipe(c_ref, pipefd);
 		if (safe_fork(c_ref, &((t_cmd *)nod_ref->data)->pid) == 0)
 		{
-			_set_sig_child(c_ref);
-			safe_close(c_ref, pipefd[0]);
-			exit(exec_run_cmd(c_ref, nod_ref->data, prevfd, pipefd[1]));
+			_run_child(c_ref, nod_ref->data, pipefd, prevfd);
 		}
 		safe_close(c_ref, prevfd);
 		safe_close(c_ref, pipefd[1]);
