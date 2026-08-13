@@ -23,6 +23,7 @@ static void	_get_redir_fd(
 	{
 		*fd = red_ref->docfd;
 		*fd2 = STDIN_FILENO;
+		red_ref->docfd = -1;
 	}
 	else if (red_ref->t == REDIR_IN)
 	{
